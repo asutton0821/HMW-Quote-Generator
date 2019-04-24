@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/simplelogo2.jpg</file>
+        <file>img/hurdle.jpg</file>
+        <file>img/flyer-2017-page1.jpg</file>
+        <file>img/flyer-2017-page2.jpg</file>
+        <file>img/flyer-2017-page3.jpg</file>
+        <file>img/flyer-2017-page4.jpg</file>
+        <file>img/flyer-2017-page5.jpg</file>
+        <file>img/flyer-2017-page6.jpg</file>
+        <file>img/magnumLT-carriage.jpg</file>
+        <file>img/slide-bg.jpg</file>
+        <file>img/slide-bg2.jpg</file>
+        <file>img/slide-bg4.jpg</file>
+        <file>img/slide-bg5.jpg</file>
+        <file>img/slide-bg3.jpg</file>
+    </qresource>
+</RCC>

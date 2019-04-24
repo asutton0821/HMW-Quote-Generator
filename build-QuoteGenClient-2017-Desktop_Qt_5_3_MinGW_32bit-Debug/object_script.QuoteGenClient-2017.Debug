@@ -1,0 +1,15 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\quotedbmanager.o
+./debug\quotedbpricemanager.o
+./debug\quotepdfmanager.o
+./debug\authentication.o
+./debug\quotestatus.o
+./debug\encryptionhandler.o
+./debug\qrc_resources.o
+./debug\moc_mainwindow.o
+./debug\moc_quotepdfmanager.o
+./debug\moc_authentication.o
+./debug\moc_quotestatus.o
+);

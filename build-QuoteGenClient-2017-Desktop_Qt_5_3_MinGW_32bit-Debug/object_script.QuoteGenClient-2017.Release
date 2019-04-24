@@ -1,0 +1,15 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\quotedbmanager.o
+./release\quotedbpricemanager.o
+./release\quotepdfmanager.o
+./release\authentication.o
+./release\quotestatus.o
+./release\encryptionhandler.o
+./release\qrc_resources.o
+./release\moc_mainwindow.o
+./release\moc_quotepdfmanager.o
+./release\moc_authentication.o
+./release\moc_quotestatus.o
+);
