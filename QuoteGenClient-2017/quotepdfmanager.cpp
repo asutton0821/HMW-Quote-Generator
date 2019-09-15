@@ -427,6 +427,40 @@ QString quotePDFManager::getOptions(Quote q,int quoteNum, QString array[100], in
             str+="<tr><td style='padding-left:25px'>"+name+" x "+QString::number(value)+":</td><td align='right' ><b>$ "+s+"</b></td></tr>";
 
         }
+        if(array[i] == "brownsville"){
+            query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'brownsville'");
+            query.last();
+            int value = query.value(3).toInt(); //the number of brownsville in the spin box
+           // qDebug() << "PDF value is " << value;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"';");
+            query.last();
+            int totalValue = query.value(2).toInt() * value;
+          //  qDebug() << "Total Cant Price PDF" << totalValue;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"'");
+            query.last();
+            QString name = query.value(1).toString();
+            QLocale l = QLocale::system();
+            QString s = l.toString(totalValue);
+            str+="<tr><td style='padding-left:25px'>"+name+" x "+QString::number(value)+":</td><td align='right' ><b>$ "+s+"</b></td></tr>";
+
+        }
+        if(array[i] == "cantPushOff"){
+            query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'cantPushOff'");
+            query.last();
+            int value = query.value(3).toInt(); //the number of cantPushOff in the spin box
+           // qDebug() << "PDF value is " << value;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"';");
+            query.last();
+            int totalValue = query.value(2).toInt() * value;
+          //  qDebug() << "Total Cant Price PDF" << totalValue;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"'");
+            query.last();
+            QString name = query.value(1).toString();
+            QLocale l = QLocale::system();
+            QString s = l.toString(totalValue);
+            str+="<tr><td style='padding-left:25px'>"+name+" x "+QString::number(value)+":</td><td align='right' ><b>$ "+s+"</b></td></tr>";
+
+        }
         else if(array[i] == "extraTrailer"){
             // qDebug() << "trailerLeg";
              query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'extraTrailer'");

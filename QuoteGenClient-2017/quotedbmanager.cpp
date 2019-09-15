@@ -34,7 +34,7 @@ mySql = true;
 }
 
 void QuoteDbManager::start(){
-    /*
+/*
     if(mySql == false){
    QFile::exists("quotedatabase.sqlite");
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -48,11 +48,11 @@ void QuoteDbManager::start(){
     else{
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setDatabaseName("quotedatabase");
-    db.setHostName("localhost1"); //CHANGE THIS WHEN DEPLOYING
+    db.setHostName("192.168.1.8"); //CHANGE THIS WHEN DEPLOYING
     db.setPassword("password");
     db.setUserName("root");
 
-   qDebug() << "Database open? : " << db.open();
+    qDebug() << "Database open? : " << db.open();
 
     }
 
@@ -62,9 +62,9 @@ void QuoteDbManager::start(){
        // QMessageBox::critical(this,"No Connection","No connection to database. Errno: 100");
         qApp->exit(100);
         }
+
+
 */
-
-
 }
 
 

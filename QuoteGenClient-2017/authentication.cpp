@@ -15,7 +15,7 @@ authentication::authentication(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString dbAddress = "172.16.1.118";
+    QString dbAddress = "localhost";
 
     this->setFixedSize(QSize(400,300));
     buttonPressed = 0;
@@ -44,7 +44,7 @@ QFile::exists("quotedatabase.sqlite");
  db = QSqlDatabase::addDatabase("QMYSQL");
  db.setDatabaseName("quotedatabase");
  db.setHostName(dbAddress);
- db.setPassword("Iamroot!");
+ db.setPassword("password");
  db.setUserName("root");
 qDebug() << "Database open? : " << db.open();
 

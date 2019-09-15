@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT  += core gui sql printsupport
+QT += core gui sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -36,7 +36,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     quotedbmanager.h \
     quotedbpricemanager.h \
-    ../quotepdfmanager.h \
+    quotepdfmanager.h \
     quotepdfmanager.h \
     authentication.h \
     quotestatus.h \

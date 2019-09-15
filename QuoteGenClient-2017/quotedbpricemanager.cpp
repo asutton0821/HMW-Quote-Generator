@@ -1002,6 +1002,41 @@ int quoteDBPriceManager::priceQuote(Quote q,QString array[100], int index, int q
             //qDebug() << totalPrice << endl;
 
         }
+        if(array[i] == "cantPushOff"){
+            //qDebug() << "found cant turner";
+            query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'cantPushOff'");
+            query.last();
+            int value = query.value(3).toInt(); //the number of brownsville in the spin box
+            //qDebug() << "Cant Turners: " << value;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"';");
+            query.last();
+            int totalValue = query.value(2).toInt() * value;
+           // qDebug() << "Total Cant Price " << totalValue;
+
+            //qDebug() << "cantPushOff : " << value << " * knees = " << totalValue;
+            totalPrice+=totalValue; //so, take the number of cant turners, multiply by number of knees, which is multiplied by 3500
+            //qDebug() << totalPrice << endl;
+
+        }
+
+        if(array[i] == "brownsville"){
+            //qDebug() << "found cant turner";
+            query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'brownsville'");
+            query.last();
+            int value = query.value(3).toInt(); //the number of brownsville in the spin box
+            //qDebug() << "Cant Turners: " << value;
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array[i]+"';");
+            query.last();
+            int totalValue = query.value(2).toInt() * value;
+
+           // qDebug() << "Total Cant Price " << totalValue;
+
+            //qDebug() << "Brownsville : " << value << " * knees = " << totalValue;
+            totalPrice+=totalValue; //so, take the number of cant turners, multiply by number of knees, which is multiplied by 3500
+            //qDebug() << totalPrice << endl;
+
+        }
+
        else if(array[i] == "extraTrailer"){
             //qDebug() << "trailerLeg";
             query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = 'extraTrailer'");

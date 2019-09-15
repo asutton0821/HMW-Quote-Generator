@@ -7,7 +7,7 @@
 #include "quotedbmanager.h"
 #include "quotepdfmanager.h"
 #include <QRegExp>
-
+#include <ui_mainwindow.h>
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>

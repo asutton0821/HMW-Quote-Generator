@@ -42,6 +42,7 @@ private:
     QString loginName;
     QuoteStatus qS;
     bool newQuote;
+    int expandOrShrink;
 
 
 
@@ -78,6 +79,7 @@ private slots:
     void resetButton();
     bool eventFilter(QObject *obj, QEvent *event);
     void closeEvent(QCloseEvent *bar);
+    void doTheThing(void);
     QStringList getDatabaseElements(QString databaseName);
 
     void getOverrides(void);
