@@ -1585,15 +1585,15 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Carriages</string>
+      <string>ReSaws</string>
      </attribute>
      <widget class="QCheckBox" name="magnumLinearCheckBox">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>20</y>
+        <x>0</x>
+        <y>0</y>
         <width>161</width>
         <height>20</height>
        </rect>
@@ -1608,8 +1608,8 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>30</y>
+        <x>0</x>
+        <y>20</y>
         <width>181</width>
         <height>20</height>
        </rect>
@@ -1618,11 +1618,6 @@
        <string>Linear Comp Setworks</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>ReSaws</string>
-     </attribute>
     </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="icon">

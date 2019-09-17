@@ -593,7 +593,7 @@ void quoteDBPriceManager::printArray(){
 }
 /*
  * Finds any overrides and marks them.
- *
+ * DEPRECATED
  *
  */
 
@@ -677,10 +677,11 @@ void quoteDBPriceManager::removeFromArray(QString value){
  * Searches in the array for a specified value. Index = the total number of elements in the array at
  * the time of searching.
  *
+ * DEPRECATED
  *
  */
 
-
+/*
 bool quoteDBPriceManager::findInArray(QString array[100], QString value, int index){
     for(int i=0; i<index;i++){
         if(array[i].compare(value) ==0){
@@ -690,7 +691,7 @@ bool quoteDBPriceManager::findInArray(QString array[100], QString value, int ind
         }
     }
     return false;
-}
+} */
 /*
  * Searches in the array for a specified value. Index = the total number of elements in the array at
  * the time of searching.
@@ -898,7 +899,7 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
  *
  */
 
-
+/*
 int quoteDBPriceManager::priceQuote(Quote q,QString array[100], int index, int quoteNum){
     //qDebug() << "Running priceQuote";
     QSqlQuery query;
@@ -1151,7 +1152,7 @@ int quoteDBPriceManager::priceQuote(Quote q,QString array[100], int index, int q
     return totalPrice;
 }
 
-
+*/
 
 void quoteDBPriceManager::processDynamicOverrides(QString overrideValue, int quoteNum){
     QSqlQuery q2;

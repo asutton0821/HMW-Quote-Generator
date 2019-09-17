@@ -46,12 +46,12 @@ public slots:
     void checkForDateToOverlap(void);
     void updateArray(QString arrayl[100]);
     void updateLength(int );
-    bool findOverride(QString );
+    //bool findOverride(QString ); //This function is deprecated. Do not use.
     void updateTotalPrice(int);
     QString detailPage(Quote);
     QString getOptions(Quote, int , QList<QString> array, int );
-    QString getOptions(Quote, int , QString array[100], int );
-    bool findInArray(QString array[100], QString value, int index);
+    //QString getOptions(Quote, int , QString array[100], int ) <-This function is deprecated. Do not use.
+    //bool findInArray(QString array[100], QString value, int index); <- This function is deprecated. Do not use.
     bool findInArray(QList<QString> array, QString value, int index);
     QString getQuotedMill(QList<QString> array, int index);
     bool findOverride(QString overrideValue, int quoteNum);

@@ -541,14 +541,16 @@ void MainWindow::reset(bool startOver){
     connect(ui->nextPushButton, SIGNAL(clicked()), this, SLOT(nextButtonPushed())); //Connect Next Button
     connect(ui->quoteNumLineEdit, SIGNAL(textEdited(QString)), this, SLOT(onTextChanged())); //Connect TextEdit on numLineEdit
     connect(ui->platform40RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
-   connect(ui->platform48RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
-  connect(ui->platform60RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
+    connect(ui->platform48RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
+    connect(ui->platform60RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform52RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
 
     connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->cantTurnersCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
     connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectRadioButtons()));
     connect(ui->flatEdgerCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
+    connect(ui->linearCompSetworksCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes()));
+    connect(ui->linearCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectCheckBoxes()));
     connect(ui->actionNew_Quote, SIGNAL(triggered(bool)),this,SLOT(resetButton())); //connect newQuote action
     connect(ui->actionAbout_Quote_Generator, SIGNAL(triggered(bool)),this,SLOT(displayVersion())); //connect About Action
     connect(ui->pdfPushButton, SIGNAL(clicked()),this,SLOT(printPDF())); //connect PDF Button
@@ -842,6 +844,18 @@ void MainWindow::connectCheckBoxes(){
     }
    */
 
+
+    /*
+     * DEPENDENCIES UNDER THIS LINE.
+     */
+
+    if(ui->linearCheckBox->isChecked()){
+        ui->linearCompSetworksCheckBox->setEnabled(true);
+    }
+    else{
+        ui->linearCompSetworksCheckBox->setEnabled(false);
+        ui->linearCompSetworksCheckBox->setChecked(false); //if it is checked when disabled, set it to an unchecked state so the system does not count it.
+    }
 
 }
 

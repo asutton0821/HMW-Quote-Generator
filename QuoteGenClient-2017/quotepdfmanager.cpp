@@ -120,8 +120,11 @@ QString quotePDFManager::detailPage(Quote q){
     return html;
 }
 
-
-
+/* This functions finds the values in the array.
+ *
+ * VERY DEPRECATED.
+ */
+/*
 bool quotePDFManager::findInArray(QString array[100], QString value, int index){
     for(int i=0; i<index;i++){
         if(array[i].compare(value) ==0){
@@ -131,7 +134,7 @@ bool quotePDFManager::findInArray(QString array[100], QString value, int index){
         }
     }
     return false;
-}
+} */
 
 
 bool quotePDFManager::findInArray(QList<QString> array, QString value, int index){
@@ -256,7 +259,6 @@ QString quotePDFManager::getOptions(Quote q,int quoteNum, QList<QString> array, 
                     int value = query.value(3).toInt();
                     query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
                     query.last();
-
                     query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"'");
                     query.last();
                     QString name = query.value(1).toString();
@@ -341,10 +343,11 @@ QString quotePDFManager::getOptions(Quote q,int quoteNum, QList<QString> array, 
 /*
  *
  * Get options from the quote form using an array.
- * Very deprecated.
  *
+ * Very deprecated
  */
 
+/*
 QString quotePDFManager::getOptions(Quote q,int quoteNum, QString array[100], int index){
     QSqlQuery query;
     quoteDBPriceManager qP;
@@ -608,7 +611,7 @@ QString quotePDFManager::getOptions(Quote q,int quoteNum, QString array[100], in
     return "<table width='100%'><font size=4 face='Times New Roman'><tr> <th align='left'><b>OPTIONS:</b></th></tr>"+str+"</table><br /><hr><br /><table width='100%'><font size=4 face='Times New Roman'><tr><td style='padding-left:100px'><b>HEAVY WEIGHT SAWMILL TOTAL W/ OPTIONS: </b></td><td align='right'><b>$ "+s+"</b></td></tr></table>";
 
 }
-
+ */
 
 /*
  *
@@ -1062,9 +1065,11 @@ void quotePDFManager::updateLength(int lengthl){
 /*
  *
  * Finds any overrides.
- *
+ * DEPRECATED.
  *
  */
+
+/*
 bool quotePDFManager::findOverride(QString value){
     for(int i = 0; i < length + 1; i++){
         if(array[i] == value){
@@ -1072,7 +1077,7 @@ bool quotePDFManager::findOverride(QString value){
         }
     }
     return false;
-}
+} */
 
 /*
  *
