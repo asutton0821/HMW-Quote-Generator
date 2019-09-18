@@ -297,6 +297,11 @@ if(q.custom2 != "" && q.custom2 != " " ){
         qDebug() << "Custom Price " << q.customPrice1;
     qDebug() << totalPrice << endl;
 }
+/*if(q.custom3 != "" && q.custom3 != " " ){
+    totalPrice+=q.customPrice3;
+        qDebug() << "Custom Price " << q.customPrice1 & customPrice2;
+    qDebug() << totalPrice << endl;
+}*/
 if(q.trailer52){
     if(findOverride("action52_Trailer")){
         qDebug() << "Found an override!";

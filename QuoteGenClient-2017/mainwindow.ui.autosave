@@ -35,8 +35,8 @@
    <widget class="QLineEdit" name="faxLineEdit">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>350</y>
+      <x>480</x>
+      <y>290</y>
       <width>141</width>
       <height>20</height>
      </rect>
@@ -161,8 +161,8 @@
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>350</y>
+      <x>450</x>
+      <y>290</y>
       <width>31</width>
       <height>16</height>
      </rect>
@@ -955,9 +955,9 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>400</y>
-      <width>671</width>
-      <height>411</height>
+      <y>350</y>
+      <width>691</width>
+      <height>481</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1352,76 +1352,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="brownsvilleCheckBox">
-            <property name="text">
-             <string>Brownsville</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="brownsvilleSpinBox">
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-            <property name="minimum">
-             <number>2</number>
-            </property>
-            <property name="maximum">
-             <number>4</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_7">
-      <property name="geometry">
-       <rect>
-        <x>440</x>
-        <y>270</y>
-        <width>111</width>
-        <height>99</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>   Setworks</string>
-      </property>
-      <widget class="QWidget" name="verticalLayoutWidget_6">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>101</width>
-         <height>74</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <widget class="QRadioButton" name="camboxRadioButton">
-          <property name="text">
-           <string>Cambox</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="nanosetRadioButton">
-          <property name="text">
-           <string>NanoSet</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="compsetRadioButton">
-          <property name="text">
-           <string>CompSet</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>
@@ -1429,9 +1359,9 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>120</y>
+        <y>110</y>
         <width>221</width>
-        <height>161</height>
+        <height>261</height>
        </rect>
       </property>
       <property name="title">
@@ -1443,7 +1373,7 @@
          <x>0</x>
          <y>20</y>
          <width>211</width>
-         <height>131</height>
+         <height>211</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -1490,11 +1420,52 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="linearCylinderCarriageCheckBox">
-          <property name="text">
-           <string>Linear Cylinder Carriage</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QCheckBox" name="brownsvilleCheckBox">
+            <property name="text">
+             <string>Brownsville</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="brownsvilleSpinBox">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="minimum">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QCheckBox" name="cantPushOffCheckBox">
+            <property name="text">
+             <string>Cant Push-Offs</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="cantPushOffSpinBox">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="minimum">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -1552,35 +1523,74 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="layoutWidget_2">
+     <widget class="QGroupBox" name="groupBox_7">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>280</y>
-        <width>169</width>
-        <height>49</height>
+        <x>440</x>
+        <y>270</y>
+        <width>231</width>
+        <height>171</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <property name="title">
+       <string>   Setworks</string>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>162</width>
+         <height>160</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QRadioButton" name="camboxRadioButton">
+          <property name="text">
+           <string>Cambox</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="nanosetRadioButton">
+          <property name="text">
+           <string>NanoSet</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="compsetRadioButton">
+          <property name="text">
+           <string>CompSet</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="linearCompSetworksCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Linear Comp Setworks</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>370</y>
+        <width>160</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <widget class="QCheckBox" name="cantPushOffCheckBox">
-         <property name="text">
-          <string>Cant Push-Offs</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="cantPushOffSpinBox">
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="minimum">
-          <number>2</number>
-         </property>
-         <property name="maximum">
-          <number>4</number>
-         </property>
-        </widget>
+        <widget class="QSpinBox" name="spinBox"/>
        </item>
       </layout>
      </widget>
@@ -1589,33 +1599,27 @@
      <attribute name="title">
       <string>ReSaws</string>
      </attribute>
-     <widget class="QCheckBox" name="magnumLinearCheckBox">
+     <widget class="QTextEdit" name="textEdit">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>161</width>
-        <height>20</height>
+        <x>10</x>
+        <y>50</y>
+        <width>311</width>
+        <height>111</height>
        </rect>
-      </property>
-      <property name="text">
-       <string>Magnum LT Linear</string>
       </property>
      </widget>
-     <widget class="QCheckBox" name="linearCompSetworksCheckBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QCheckBox" name="resawCheckBox">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>20</y>
-        <width>181</width>
-        <height>20</height>
+        <x>10</x>
+        <y>30</y>
+        <width>71</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Linear Comp Setworks</string>
+       <string>Resaw</string>
       </property>
      </widget>
     </widget>
@@ -1635,8 +1639,8 @@
    <widget class="QPushButton" name="tabButton">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>360</y>
+      <x>650</x>
+      <y>310</y>
       <width>80</width>
       <height>22</height>
      </rect>
@@ -1650,55 +1654,6 @@
      <string>Start Quoting</string>
     </property>
    </widget>
-   <zorder>faxLineEdit</zorder>
-   <zorder>label_4</zorder>
-   <zorder>phoneLineEdit</zorder>
-   <zorder>label</zorder>
-   <zorder>label_11</zorder>
-   <zorder>label_16</zorder>
-   <zorder>label_15</zorder>
-   <zorder>address1LineEdit</zorder>
-   <zorder>label_17</zorder>
-   <zorder>label_12</zorder>
-   <zorder>customPrice1SpinBox</zorder>
-   <zorder>groupBox_8</zorder>
-   <zorder>label_5</zorder>
-   <zorder>companyNameLineEdit</zorder>
-   <zorder>phone2LineEdit</zorder>
-   <zorder>label_13</zorder>
-   <zorder>nextPushButton</zorder>
-   <zorder>label_9</zorder>
-   <zorder>emailLineEdit</zorder>
-   <zorder>label_3</zorder>
-   <zorder>custom2LineEdit</zorder>
-   <zorder>label_10</zorder>
-   <zorder>custom1LineEdit</zorder>
-   <zorder>address2LineEdit</zorder>
-   <zorder>cityLineEdit</zorder>
-   <zorder>label_logo</zorder>
-   <zorder>label_2</zorder>
-   <zorder>salesPersonComboBox</zorder>
-   <zorder>line</zorder>
-   <zorder>horizontalLayoutWidget_2</zorder>
-   <zorder>nameLineEdit</zorder>
-   <zorder>line_2</zorder>
-   <zorder>customPrice2SpinBox</zorder>
-   <zorder>label_14</zorder>
-   <zorder>label_8</zorder>
-   <zorder>previousPushButton</zorder>
-   <zorder>horizontalLayoutWidget</zorder>
-   <zorder>stateComboBox</zorder>
-   <zorder>statusBox</zorder>
-   <zorder>label_18</zorder>
-   <zorder>loginLabel</zorder>
-   <zorder>createdByLabel</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>verticalSpacer</zorder>
-   <zorder>okCancelButtonBox</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>tabButton</zorder>
-   <zorder>spinBox</zorder>
-   <zorder>radioButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

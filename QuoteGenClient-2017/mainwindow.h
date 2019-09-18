@@ -84,6 +84,8 @@ private slots:
 
     void getOverrides(void);
     void checkOverrides(void);
+    void iterateChildren(QWidget * parent);
+
 
 
     QList<QString> applyCheckedItems(void);

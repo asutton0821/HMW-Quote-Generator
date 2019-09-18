@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     newQuote = true;
     length = 0;
     //this->setFixedSize(QSize(740,1030));
-    this->setFixedSize(QSize(740,470));
+    this->setFixedSize(QSize(740,420));
     qdbMan.start();
     i = 0;
     this->freeze();
@@ -92,12 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
-  //  this->freeze();
-
-
-
-
+//iterateChildren(ui->centralWidget);
 
 
 
@@ -403,6 +398,7 @@ q.custom2 = ui->custom2LineEdit->text();
 //custom
 q.customPrice1 = ui->customPrice1SpinBox->text().toInt();
 q.customPrice2 = ui->customPrice2SpinBox->text().toInt();
+//q.customPrice3 = ui->customPrice3SpinBox->text().toInt();
 
 //saw specs
 q.sawSpecs = ui->sawSpeedSpinBox->text().toInt();
@@ -1535,6 +1531,45 @@ void MainWindow::loadConnectionFile(){
 }
 
 
+/*
+
+void MainWindow::loadConnectionFile(){
+
+    //Let's search through the MainUI and find all the elements, adding them to the file.
+
+    QObjectList list = ui->centralWidget->children();
+    qDebug() << "found " << list.count();
+    int interator = 0;
+
+    connectionsFrom[iterator] = list.at(iterator)->objectName();
+
+    //No more connections file needed.
+    qu.exec("SELECT * FROM quoteItems"); //grab all of the items in quote items.
+    while(qu.next()){ //while there is a next object to grab.
+        qDebug() << "Grabbing: " << qu.value(0);
+        connectionsFrom[i] = splitted.at(0);
+        connectionsTo[i] = splitted.at(1);
+
+    }
+
+
+
+
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -2044,10 +2079,31 @@ void MainWindow::doTheThing(){
         expandOrShrink = 1;
     }
     else if(expandOrShrink = 1){ //if expanded, shrink
-        this->setFixedSize(QSize(740,470));
+        this->setFixedSize(QSize(740,420));
         ui->tabButton->setText("Expand Tabs");
         expandOrShrink = 0;
     }
+
+}
+
+void MainWindow::iterateChildren(QWidget * parent){
+    //we do not want to iterate literal children.
+
+
+
+    QStringList objectNames;
+
+    QObjectList children = parent->children(); //recursion
+    QObjectList::const_iterator it = children.begin(); //iterator begin
+    QObjectList::const_iterator eIt = children.end(); //iterator end
+    while( it != eIt ){ //while beginning does not equal end
+
+       QWidget * parentChild = (QWidget *)(*it++);
+
+                objectNames << parentChild->objectName();
+                iterateChildren( parentChild );
+
+       }
 
 }
 
