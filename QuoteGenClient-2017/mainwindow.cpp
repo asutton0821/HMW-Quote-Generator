@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QSystemTrayIcon * trayIcon;
     trayIcon = new QSystemTrayIcon (this);
+    trayIcon->setIcon(QPixmap(":/pikachu.png"));
     trayIcon ->setToolTip(tr("Hurdle"));
     trayIcon->show();
 
