@@ -266,6 +266,29 @@ QString quotePDFManager::getOptions(Quote q,int quoteNum, QList<QString> array, 
                     query.last();
                     str+="<tr><td style='padding-left:25px'>"+name+" x "+QString::number(value)+":</td><td align='right' ><b>NO CHARGE</b></td></tr>";
             }
+            if(array.at(i) == "wheelSize"){
+                int value = query.value(3).toInt();
+                if(value == 12){
+                    int totalValue = 1000; //dollars
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"'");
+                    query.last();
+                    QString name = query.value(1).toString();
+                    QLocale l = QLocale::system();
+                    QString s = l.toString(totalValue);
+                    str+="<tr><td style='padding-left:25px'>"+name+":</td><td align='right' ><b>$ "+s+"</b></td></tr>";
+                }
+                else if(value == 14){
+                    int totalValue = 1500; //dollars
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"'");
+                    query.last();
+                    QString name = query.value(1).toString();
+                    QLocale l = QLocale::system();
+                    QString s = l.toString(totalValue);
+                    str+="<tr><td style='padding-left:25px'>"+name+":</td><td align='right' ><b>$ "+s+"</b></td></tr>";
+                }
+
+
+             }
             else{
                 int value = query.value(3).toInt();
                 query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
