@@ -18,13 +18,20 @@
 #include <QPlainTextEdit>
 #include <QComboBox>
 #include <QSqlError>
-
+#include <QSystemTrayIcon>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    QSystemTrayIcon * trayIcon;
+    trayIcon = new QSystemTrayIcon (this);
+    trayIcon->setIcon(QPixmap(":/img/hurdleicon.ico"));
+    trayIcon ->setToolTip(tr("Hurdle"));
+    trayIcon->show();
+
 
     STOPAPP = false;
 
@@ -37,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     newQuote = true;
     length = 0;
     //this->setFixedSize(QSize(740,1030));
-    this->setFixedSize(QSize(740,470));
+    this->setFixedSize(QSize(740,420));
     qdbMan.start();
     i = 0;
     this->freeze();
@@ -92,12 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
-  //  this->freeze();
-
-
-
-
+//iterateChildren(ui->centralWidget);
 
 
 
@@ -204,8 +206,6 @@ void MainWindow::previousButtonPushed(){
         }
 
     }
-
-
 
 }
 
@@ -364,19 +364,25 @@ q.name = ui->nameLineEdit->text();
 
 
 
-if(ui->nameLineEdit->text() == "" && ui->nameLineEdit->text() == " ") {
-    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires name field to not be blank!"));
-        return;
-}
-if(ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
+
+
+/*if(ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
     QMessageBox::information(this, tr("Invalid!"), tr("Quote requires a platform size to be checked!"));
     return;
 }
-if(ui->magnumRadioButton->isChecked() == false && ui->challengerRadioButton->isChecked() == false){
+if(ui->magnumRadioButton->isChecked() == false && ui->challengerRadioButton->isChecked() == false && ui->magnumLTSetshaftradioButton->isChecked()==false){
     QMessageBox::information(this, tr("Invalid!"), tr("Quote requires a carriage type to be checked!"));
     return;
 }
-
+*/
+if(ui->nameLineEdit->text() == "" && ui->nameLineEdit->text() == " ") {
+    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires name field to not be blank and save for salesperson must be checked!"));
+        return;
+}
+if(ui->saveCheckBox->isChecked()==false && ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
+    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires Save Only or platform size to be checked!"));
+    return;//this conditional statement is very strange
+}
 if((ui->emailLineEdit->text() != "" && ui->emailLineEdit->text() != " ") || (ui->phoneLineEdit->text() != " " && ui->phoneLineEdit->text() != "") || (ui->phone2LineEdit->text() != "" && ui->phone2LineEdit->text() != " ") ){
     //pass
 }
@@ -403,6 +409,7 @@ q.custom2 = ui->custom2LineEdit->text();
 //custom
 q.customPrice1 = ui->customPrice1SpinBox->text().toInt();
 q.customPrice2 = ui->customPrice2SpinBox->text().toInt();
+//q.customPrice3 = ui->customPrice3SpinBox->text().toInt();
 
 //saw specs
 q.sawSpecs = ui->sawSpeedSpinBox->text().toInt();
@@ -435,7 +442,7 @@ qP.priceQuote(q,list,list.count(),ui->quoteNumLineEdit->text().toInt());
 
 
 
-//reset(false); //uncomment to reset everytime you make a quote.
+reset(false); //uncomment to reset everytime you make a quote. comment to disable this feature
 
 
 
@@ -544,6 +551,8 @@ void MainWindow::reset(bool startOver){
     connect(ui->platform48RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform60RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform52RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
+    connect(ui->wheelSizeCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect checkbox
+    connect(ui->magnumLTSetshaftradioButton, SIGNAL(triggered(bool)), this, SLOT(connectRadioButtons()));//connect radio button
 
     connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->cantTurnersCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
@@ -609,7 +618,6 @@ void MainWindow::reset(bool startOver){
 
 }
 
-
 /*
  * This function will detect text changing in the quoteNumLineEdit box that will allow you to jump to
  * quotes that are stored. Going over the amount of quotes + 1 (taking into account a new quote action),
@@ -640,9 +648,6 @@ else{
 }
 
 }
-
-
-
 
 
 /*
@@ -699,19 +704,27 @@ void MainWindow::getQuote(int quoteNumber){
  */
 
 
-void MainWindow::connectRadioButtons(void){
+void MainWindow::connectRadioButtons(void){//if radio button <- goes here for modifications
 
     ui->twoStrandDeckRadioButton->setEnabled(true);
     ui->threeStrandDeckRadioButton->setEnabled(true);
     ui->fourStrandDeckRadioButton->setEnabled(true);
 
+    ui->magnumLTSetshaftradioButton->setEnabled(false);
+    ui->magnumLTSetshaftradioButton->setChecked(false);
+
     if(ui->platform40RadioButton->isChecked() == true && ui->carriageKneesSpinBox->value() >= 2 && ui->carriageKneesSpinBox->value() >= 2){
         ui->carriageKneesSpinBox->setValue(2);
         ui->cantTurnersSpinBox->setValue(2);
+        ui->wheelSizeSpinBox->setValue(12);
+        ui->magnumLTSetshaftradioButton->setEnabled(true);
+
+
 
         ui->stdChainRadioButton->setChecked(true);
         ui->camboxRadioButton->setChecked(true);
         ui->magnumRadioButton->setChecked(true);
+        ui->wheelSizeCheckBox->setChecked(true);
 
         ui->fourStrandDeckRadioButton->setEnabled(false);
 
@@ -857,7 +870,10 @@ void MainWindow::connectCheckBoxes(){
         ui->linearCompSetworksCheckBox->setChecked(false); //if it is checked when disabled, set it to an unchecked state so the system does not count it.
     }
 
-}
+
+        }
+
+
 
 /*
  *
@@ -1535,6 +1551,45 @@ void MainWindow::loadConnectionFile(){
 }
 
 
+/*
+
+void MainWindow::loadConnectionFile(){
+
+    //Let's search through the MainUI and find all the elements, adding them to the file.
+
+    QObjectList list = ui->centralWidget->children();
+    qDebug() << "found " << list.count();
+    int interator = 0;
+
+    connectionsFrom[iterator] = list.at(iterator)->objectName();
+
+    //No more connections file needed.
+    qu.exec("SELECT * FROM quoteItems"); //grab all of the items in quote items.
+    while(qu.next()){ //while there is a next object to grab.
+        qDebug() << "Grabbing: " << qu.value(0);
+        connectionsFrom[i] = splitted.at(0);
+        connectionsTo[i] = splitted.at(1);
+
+    }
+
+
+
+
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -2044,12 +2099,33 @@ void MainWindow::doTheThing(){
         expandOrShrink = 1;
     }
     else if(expandOrShrink = 1){ //if expanded, shrink
-        this->setFixedSize(QSize(740,470));
+        this->setFixedSize(QSize(740,420));
         ui->tabButton->setText("Expand Tabs");
         expandOrShrink = 0;
     }
 
 }
+
+void MainWindow::iterateChildren(QWidget * parent){
+    //we do not want to iterate literal children.
+
+
+
+    QStringList objectNames;
+
+    QObjectList children = parent->children(); //recursion
+    QObjectList::const_iterator it = children.begin(); //iterator begin
+    QObjectList::const_iterator eIt = children.end(); //iterator end
+    while( it != eIt ){ //while beginning does not equal end
+
+       QWidget * parentChild = (QWidget *)(*it++);
+
+                objectNames << parentChild->objectName();
+                iterateChildren( parentChild );
+
+       }
+}
+
 
 
 

@@ -14,5 +14,7 @@
         <file>img/slide-bg4.jpg</file>
         <file>img/slide-bg5.jpg</file>
         <file>img/slide-bg3.jpg</file>
+        <file>hurdle2.png</file>
+        <file>hurdleicon.ico</file>
     </qresource>
 </RCC>

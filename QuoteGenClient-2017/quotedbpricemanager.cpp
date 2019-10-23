@@ -297,6 +297,11 @@ if(q.custom2 != "" && q.custom2 != " " ){
         qDebug() << "Custom Price " << q.customPrice1;
     qDebug() << totalPrice << endl;
 }
+/*if(q.custom3 != "" && q.custom3 != " " ){
+    totalPrice+=q.customPrice3;
+        qDebug() << "Custom Price " << q.customPrice1 & customPrice2;
+    qDebug() << totalPrice << endl;
+}*/
 if(q.trailer52){
     if(findOverride("action52_Trailer")){
         qDebug() << "Found an override!";
@@ -842,6 +847,28 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
             if(findOverride(array[i],quoteNum)){
                         //qDebug() << "FOUND AN OVERRIDE @ " << quoteNum << " OF " << array[i];
                         totalPrice+=0;
+            }
+            if(array.at(i) == "wheelSize"){
+                int value = query.value(3).toInt();
+                if(value == 12){
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                    query.last();
+
+                    int totalValue = 1000;
+                    totalPrice+=totalValue;
+                }
+                if(value == 14){
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                    query.last();
+
+                    int totalValue = 1500;
+                    totalPrice+=totalValue;
+                }
+
+
+
+
+
             }
             else{
                 int value = query.value(3).toInt();

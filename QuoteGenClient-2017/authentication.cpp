@@ -45,7 +45,7 @@ QFile::exists("quotedatabase.sqlite");
  db.setDatabaseName("quotedatabase");
  db.setHostName(dbAddress);
  db.setPassword("password");
- db.setUserName("root");
+ db.setUserName("admin");
 qDebug() << "Database open? : " << db.open();
 
 if(db.open() == false){
