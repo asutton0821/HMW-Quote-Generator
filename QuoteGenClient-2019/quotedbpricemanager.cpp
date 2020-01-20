@@ -481,7 +481,7 @@ int quoteDBPriceManager::priceQuote(Quote q, QString array[100], int index){
 
 
 
-        else if(array[i] == "cantTurners" && findOverride("actionCant_Turners")){
+        else if(array[i] == "cantTurner" && findOverride("actionCant_Turners")){
                // qDebug() << "Found an override!";
                 totalPrice+=0;
 
@@ -917,6 +917,203 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
     return totalPrice;
 }
 
+/*
+ *
+ * Runs a quick analysis of the price.
+ * WARNING: may slow down program significantly if resources are low.
+ *
+ */
+
+int quoteDBPriceManager::tempPriceQuote(Quote q,QList<QString> array, int index, int quoteNum){
+    //qDebug() << "Running tempPriceQuote";
+    QSqlQuery query;
+    totalPrice = 0;
+
+
+    QString carriageString;
+
+    if(findInArray(array,"mill48",index) && findInArray(array,"challengerCarriage",index)){
+        carriageString+="mill48Chal";
+    }
+    if(findInArray(array,"mill40",index) && findInArray(array,"challengerCarriage",index)){
+        carriageString+="mill40Chal";
+    }
+    if(findInArray(array,"mill60",index) && findInArray(array,"challengerCarriage",index)){
+        carriageString+="mill60Chal";
+    }
+    if(findInArray(array,"mill48",index) && findInArray(array,"magnumCarriage",index)){
+        carriageString+="mill48LT";
+    }
+    if(findInArray(array,"mill40",index) && findInArray(array,"magnumCarriage",index)){
+        carriageString+="mill40LT";
+    }
+    if(findInArray(array,"mill60",index) && findInArray(array,"magnumCarriage",index)){
+        carriageString+="mill60LT";
+    }
+    if(findInArray(array,"mill52",index) && findInArray(array,"challengerCarriage",index)){
+        carriageString+="mill52Chal";
+    }
+    if(findInArray(array,"mill52",index) && findInArray(array,"magnumCarriage",index)){
+        carriageString+="mill52LT";
+    }
+
+   // qDebug() << "Selecting " << carriageString;
+    query.exec("SELECT * FROM quoteItems WHERE name = '"+carriageString+"';");
+    query.last();
+    //qDebug() << query.value(0).toString();
+    //qDebug() << query.value(1).toString() << ":" << query.value(2).toString();
+    totalPrice+=query.value(2).toInt();
+    //qDebug() << totalPrice << endl;
+
+
+    if(findInArray(array,"mill40",index) && findInArray(array,"threeStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'LD3Over2';");
+        //query.exec("SELECT LD3Over2 FROM quoteItems");
+        query.last();
+       //qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice+=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+    }
+    if(findInArray(array,"mill48",index) && findInArray(array,"fourStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'LD4Over3';");
+        //query.exec("SELECT LD4Over3 FROM quoteItems");
+        query.last();
+       // qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice+=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+    }
+
+    if(findInArray(array,"mill52",index) && findInArray(array,"fourStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'LD4Over3';");
+        //query.exec("SELECT LD4Over3 FROM quoteItems");
+        query.last();
+       // qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice+=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+    }
+
+
+
+    //No log deck options:
+
+    if(findInArray(array,"mill40",index) && findInArray(array,"noStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'noLD2';");
+        //query.exec("SELECT noLD2 FROM quoteItems");
+        query.last();
+       // qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice-=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+    }
+    if(findInArray(array,"mill48",index) && findInArray(array,"noStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'noLD3';");
+        //query.exec("SELECT noLD3 FROM quoteItems");
+        query.last();
+       // qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice-=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+
+    }
+    if(findInArray(array,"mill60",index) && findInArray(array,"noStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'noLD4';");
+        //query.exec("SELECT noLD4 FROM quoteItems");
+        query.last();
+        //qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice-=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+
+    }
+    if(findInArray(array,"mill52",index) && findInArray(array,"noStrand",index)){
+        query.exec("SELECT * FROM quoteItems WHERE name = 'noLD4';");
+        //query.exec("SELECT noLD4 FROM quoteItems");
+        query.last();
+        //qDebug() << query.value(1).toString() << query.value(2).toInt();
+        totalPrice-=query.value(2).toInt();
+        //qDebug() << totalPrice << endl;
+
+    }
+
+
+
+
+
+  //  qDebug() << "index is " << index;
+    for(int i = 0; i<index;i++){
+        QRegExp re("\\d*");
+
+        query.exec("SELECT * FROM quoteTableTemp WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = '"+array.at(i)+"'");
+        if(query.last() && query.value(3).toInt() > 1 && re.exactMatch(query.value(3).toString())){
+            if(findOverride(array[i],quoteNum)){
+                        //qDebug() << "FOUND AN OVERRIDE @ " << quoteNum << " OF " << array[i];
+                        totalPrice+=0;
+            }
+            if(array.at(i) == "wheelSize"){
+                int value = query.value(3).toInt();
+                if(value == 12){
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                    query.last();
+
+                    int totalValue = 1000;
+                    totalPrice+=totalValue;
+                }
+                if(value == 14){
+                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                    query.last();
+
+                    int totalValue = 1500;
+                    totalPrice+=totalValue;
+                }
+
+
+
+
+
+            }
+            else{
+                int value = query.value(3).toInt();
+                query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                query.last();
+
+                int totalValue = query.value(2).toInt() * value;
+                totalPrice+=totalValue;
+            }
+
+
+
+        }
+
+        else if(findOverride(array[i],quoteNum)){
+            //qDebug() << "FOUND AN OVERRIDE @ " << quoteNum << " OF " << array[i];
+            totalPrice+=0;
+        }
+
+    else{
+
+            query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';"); //find all the things that are marked... grab their prices
+            if(query.last()){
+
+                    totalPrice+=query.value(2).toInt();
+
+
+            }
+
+
+}
+
+    }
+
+      if(q.custom1 != "" && q.custom1!= " " ){
+        totalPrice+=q.customPrice1;
+
+    }
+
+    if(q.custom2 != "" && q.custom2 != " " ){
+        totalPrice+=q.customPrice2;
+
+    }
+
+
+    return totalPrice;
+}
 
 
 /*

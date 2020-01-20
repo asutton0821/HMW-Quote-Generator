@@ -699,7 +699,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>680</x>
       <y>20</y>
       <width>79</width>
       <height>22</height>
@@ -724,7 +724,7 @@
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>630</x>
       <y>20</y>
       <width>57</width>
       <height>21</height>
@@ -836,6 +836,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="toolTip">
+          <string/>
+         </property>
          <property name="tabPosition">
           <enum>QTabWidget::North</enum>
          </property>
@@ -875,7 +878,7 @@
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>101</width>
+             <width>111</width>
              <height>131</height>
             </rect>
            </property>
@@ -888,15 +891,18 @@
            <widget class="QWidget" name="verticalLayoutWidget_5">
             <property name="geometry">
              <rect>
-              <x>1</x>
-              <y>19</y>
-              <width>91</width>
+              <x>0</x>
+              <y>20</y>
+              <width>101</width>
               <height>112</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QRadioButton" name="platform40RadioButton">
+               <property name="toolTip">
+                <string>144,000.00</string>
+               </property>
                <property name="text">
                 <string>40' mill</string>
                </property>
@@ -907,6 +913,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="platform48RadioButton">
+               <property name="toolTip">
+                <string>163,550.00</string>
+               </property>
                <property name="text">
                 <string>48' mill</string>
                </property>
@@ -917,6 +926,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="platform52RadioButton">
+               <property name="toolTip">
+                <string>166,800.00</string>
+               </property>
                <property name="text">
                 <string>52' mill</string>
                </property>
@@ -924,6 +936,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="platform60RadioButton">
+               <property name="toolTip">
+                <string>215,000.00</string>
+               </property>
                <property name="text">
                 <string>60' mill</string>
                </property>
@@ -945,6 +960,9 @@
              <height>261</height>
             </rect>
            </property>
+           <property name="toolTip">
+            <string/>
+           </property>
            <property name="title">
             <string>   Mill Options</string>
            </property>
@@ -956,6 +974,9 @@
               <width>191</width>
               <height>17</height>
              </rect>
+            </property>
+            <property name="toolTip">
+             <string>37,000.00</string>
             </property>
             <property name="text">
              <string>Vertical Edger</string>
@@ -970,6 +991,9 @@
               <height>17</height>
              </rect>
             </property>
+            <property name="toolTip">
+             <string>30,000.00</string>
+            </property>
             <property name="text">
              <string>Horizontal Edger</string>
             </property>
@@ -982,6 +1006,9 @@
               <width>171</width>
               <height>17</height>
              </rect>
+            </property>
+            <property name="toolTip">
+             <string>8,500.00</string>
             </property>
             <property name="text">
              <string>HD Outfeed Belt</string>
@@ -996,6 +1023,9 @@
               <height>17</height>
              </rect>
             </property>
+            <property name="toolTip">
+             <string>18,000.00</string>
+            </property>
             <property name="text">
              <string>Top Saw</string>
             </property>
@@ -1008,6 +1038,9 @@
               <width>151</width>
               <height>17</height>
              </rect>
+            </property>
+            <property name="toolTip">
+             <string>4,750.00</string>
             </property>
             <property name="text">
              <string>Feed Joystick</string>
@@ -1022,6 +1055,9 @@
               <height>17</height>
              </rect>
             </property>
+            <property name="toolTip">
+             <string>1,500.00</string>
+            </property>
             <property name="text">
              <string>Sawdust Chain Bracket</string>
             </property>
@@ -1034,6 +1070,9 @@
               <width>181</width>
               <height>17</height>
              </rect>
+            </property>
+            <property name="toolTip">
+             <string>1,280.00</string>
             </property>
             <property name="text">
              <string>36&quot; Pulley and bushing</string>
@@ -1096,6 +1135,9 @@
               <height>17</height>
              </rect>
             </property>
+            <property name="toolTip">
+             <string>500.00</string>
+            </property>
             <property name="text">
              <string>Extra trailer leg</string>
             </property>
@@ -1109,6 +1151,9 @@
               <height>16</height>
              </rect>
             </property>
+            <property name="toolTip">
+             <string>20,000.00</string>
+            </property>
             <property name="text">
              <string>Deluxe Seat w/ Joystick</string>
             </property>
@@ -1121,6 +1166,9 @@
               <width>221</width>
               <height>21</height>
              </rect>
+            </property>
+            <property name="toolTip">
+             <string>8,500.00</string>
             </property>
             <property name="text">
              <string>OffBearer Belt w/ HD Rollers</string>
@@ -1257,6 +1305,9 @@
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
               <widget class="QRadioButton" name="stdChainRadioButton">
+               <property name="toolTip">
+                <string/>
+               </property>
                <property name="text">
                 <string>Standard Chain</string>
                </property>
@@ -1264,6 +1315,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="hdChainRadioButton">
+               <property name="toolTip">
+                <string>3,750.00</string>
+               </property>
                <property name="text">
                 <string>HD Chain</string>
                </property>
@@ -1271,6 +1325,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="barRadioButton">
+               <property name="toolTip">
+                <string>6,500.00</string>
+               </property>
                <property name="text">
                 <string>Bar</string>
                </property>
@@ -1305,6 +1362,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
                 <widget class="QCheckBox" name="cantTurnersCheckBox">
+                 <property name="toolTip">
+                  <string>3,500.00 ea</string>
+                 </property>
                  <property name="text">
                   <string>Cant Turners</string>
                  </property>
@@ -1324,6 +1384,9 @@
              </item>
              <item>
               <widget class="QCheckBox" name="hamDogCheckBox">
+               <property name="toolTip">
+                <string>4,500.00</string>
+               </property>
                <property name="text">
                 <string>Hammer Dog</string>
                </property>
@@ -1331,6 +1394,9 @@
              </item>
              <item>
               <widget class="QCheckBox" name="extraAxleCheckBox">
+               <property name="toolTip">
+                <string>3,500.00</string>
+               </property>
                <property name="text">
                 <string>Extra Axle/Wheels</string>
                </property>
@@ -1340,6 +1406,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
                 <widget class="QCheckBox" name="brownsvilleCheckBox">
+                 <property name="toolTip">
+                  <string>1,000.00 ea</string>
+                 </property>
                  <property name="text">
                   <string>Brownsville</string>
                  </property>
@@ -1364,6 +1433,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <item>
                 <widget class="QCheckBox" name="cantPushOffCheckBox">
+                 <property name="toolTip">
+                  <string>1,000.00 ea</string>
+                 </property>
                  <property name="text">
                   <string>Cant Push-Offs</string>
                  </property>
@@ -1388,6 +1460,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
                 <widget class="QCheckBox" name="wheelSizeCheckBox">
+                 <property name="toolTip">
+                  <string>12 = 1,000.00 14 = 1,500.00</string>
+                 </property>
                  <property name="text">
                   <string>Wheel Size</string>
                  </property>
@@ -1435,6 +1510,9 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QRadioButton" name="twoStrandDeckRadioButton">
+               <property name="toolTip">
+                <string/>
+               </property>
                <property name="text">
                 <string>2 Strand</string>
                </property>
@@ -1442,6 +1520,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="threeStrandDeckRadioButton">
+               <property name="toolTip">
+                <string>2,500.00</string>
+               </property>
                <property name="text">
                 <string>3 Strand</string>
                </property>
@@ -1449,6 +1530,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="fourStrandDeckRadioButton">
+               <property name="toolTip">
+                <string>6,500.00</string>
+               </property>
                <property name="text">
                 <string>4 Strand</string>
                </property>
@@ -1469,7 +1553,7 @@
             <rect>
              <x>440</x>
              <y>270</y>
-             <width>181</width>
+             <width>161</width>
              <height>141</height>
             </rect>
            </property>
@@ -1479,7 +1563,7 @@
            <widget class="QWidget" name="verticalLayoutWidget_6">
             <property name="geometry">
              <rect>
-              <x>0</x>
+              <x>8</x>
               <y>20</y>
               <width>179</width>
               <height>112</height>
@@ -1495,6 +1579,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="nanosetRadioButton">
+               <property name="toolTip">
+                <string>5,000.00</string>
+               </property>
                <property name="text">
                 <string>NanoSet</string>
                </property>
@@ -1502,6 +1589,9 @@
              </item>
              <item>
               <widget class="QRadioButton" name="compsetRadioButton">
+               <property name="toolTip">
+                <string>15,000.00 or 20,000.00 alone</string>
+               </property>
                <property name="text">
                 <string>CompSet</string>
                </property>
@@ -1538,7 +1628,17 @@
               <x>0</x>
               <y>20</y>
               <width>271</width>
-              <height>71</height>
+              <height>31</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QTextEdit" name="notes2PlainTextEdit">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>60</y>
+              <width>271</width>
+              <height>31</height>
              </rect>
             </property>
            </widget>
@@ -1682,8 +1782,11 @@
             </item>
             <item>
              <widget class="QDialogButtonBox" name="okCancelButtonBox">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
               <property name="standardButtons">
-               <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+               <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
               </property>
               <property name="centerButtons">
                <bool>false</bool>
@@ -1691,6 +1794,461 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QLabel" name="totalLabel">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>370</y>
+             <width>191</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="WindowText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Light">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Midlight">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>243</red>
+                 <green>243</green>
+                 <blue>243</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Dark">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Mid">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>154</red>
+                 <green>154</green>
+                 <blue>154</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="BrightText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ButtonText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Shadow">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="AlternateBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>243</red>
+                 <green>243</green>
+                 <blue>243</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>220</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="WindowText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Light">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Midlight">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>243</red>
+                 <green>243</green>
+                 <blue>243</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Dark">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Mid">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>154</red>
+                 <green>154</green>
+                 <blue>154</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="BrightText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ButtonText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Shadow">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="AlternateBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>243</red>
+                 <green>243</green>
+                 <blue>243</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>220</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="WindowText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Light">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Midlight">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>243</red>
+                 <green>243</green>
+                 <blue>243</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Dark">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Mid">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>154</red>
+                 <green>154</green>
+                 <blue>154</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="BrightText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ButtonText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>115</red>
+                 <green>115</green>
+                 <blue>115</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Shadow">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="AlternateBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>231</red>
+                 <green>231</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipBase">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>220</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="ToolTipText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#4e9a06;&quot;&gt;Est. Total Price: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
           </widget>
          </widget>
          <widget class="QWidget" name="tab_3">
@@ -1884,6 +2442,42 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>240</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zip Code</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="zipCodeLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>240</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="newQuotePushButton">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>20</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New Quote</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1901,6 +2495,7 @@
     <addaction name="actionNew_Quote"/>
     <addaction name="actionChange_Save_Location"/>
     <addaction name="actionClose_Sidebar"/>
+    <addaction name="actionClose_Price_Sidebar"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -2200,6 +2795,11 @@
     <string>Comp Setworks</string>
    </property>
   </action>
+  <action name="actionClose_Price_Sidebar">
+   <property name="text">
+    <string>Close Price Sidebar</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -2238,7 +2838,6 @@
   <tabstop>extraAxleCheckBox</tabstop>
   <tabstop>cantTurnersSpinBox</tabstop>
   <tabstop>camboxRadioButton</tabstop>
-  <tabstop>nanosetRadioButton</tabstop>
   <tabstop>compsetRadioButton</tabstop>
   <tabstop>custom1LineEdit</tabstop>
   <tabstop>customPrice1SpinBox</tabstop>
