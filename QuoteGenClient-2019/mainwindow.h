@@ -39,8 +39,8 @@ private:
     int length;
     QString priceArray[100];
     int pIndex;
-    QString connectionsTo[100];
-    QString connectionsFrom[100];
+    QString connectionsTo[200];
+    QString connectionsFrom[200];
     int i;
     QString loginName;
     QuoteStatus qS;
@@ -49,7 +49,7 @@ private:
     int expandOrShrink;
     QStringList objectNames;
     QSystemTrayIcon * trayIcon;
-    QWidget * widgets[100];
+    QWidget * widgets[200];
     int num;
     QList<QCheckBox * > checkBoxes;
     int total;
@@ -106,6 +106,7 @@ private slots:
    // QList<QString> applyCheckedItems2(void);
     void priceSideBar();
     void push(bool);
+    //void tooltip();
 
 
 };

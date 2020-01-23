@@ -727,7 +727,7 @@ bool quoteDBPriceManager::findInArray(QList<QString> array, QString value, int i
 
 
 int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int quoteNum){
-    //qDebug() << "Running priceQuote";
+   // qDebug() << "Running priceQuote";
     QSqlQuery query;
     totalPrice = 0;
 
@@ -848,39 +848,15 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
                         //qDebug() << "FOUND AN OVERRIDE @ " << quoteNum << " OF " << array[i];
                         totalPrice+=0;
             }
-            if(array.at(i) == "wheelSize"){
-                int value = query.value(3).toInt();
-                if(value == 12){
-                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
-                    query.last();
 
-                    int totalValue = 1000;
-                    totalPrice+=totalValue;
-                }
-                if(value == 14){
-                    query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
-                    query.last();
-
-                    int totalValue = 1500;
-                    totalPrice+=totalValue;
-                }
-
-
-
-
-
-            }
             else{
                 int value = query.value(3).toInt();
                 query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
                 query.last();
-
+                   qDebug() << "ITEM: " << array.at(i) << " PRICE : " << query.value(2).toInt() << " * " << value << "=" << query.value(2).toInt() * value;
                 int totalValue = query.value(2).toInt() * value;
                 totalPrice+=totalValue;
             }
-
-
-
         }
 
         else if(findOverride(array[i],quoteNum)){
@@ -888,15 +864,31 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
             totalPrice+=0;
         }
 
-    else{
+        else if(array.at(i) == "wheelSize"){
+            int value = query.value(3).toInt();
+            if(value == 12){
+                query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                query.last();
 
+                int totalValue = 1000;
+                totalPrice+=totalValue;
+            }
+            if(value == 14){
+                query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
+                query.last();
+
+                int totalValue = 1500;
+                totalPrice+=totalValue;
+            }
+        }
+
+        else{
             query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';"); //find all the things that are marked... grab their prices
             if(query.last()){
 
+                qDebug() << "ITEM: " << array.at(i) << " PRICE: " << query.value(2).toInt();
                     totalPrice+=query.value(2).toInt();
-
-
-            }
+         }
 
 
 }
@@ -913,8 +905,26 @@ int quoteDBPriceManager::priceQuote(Quote q,QList<QString> array, int index, int
 
     }
 
+    query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " and name = customPrice1SpinBox");
+    qDebug() << "finding custom ";
+    query.last();
+    int value = query.value(3).toInt();
+    qDebug() <<"customValue " << value;
+    totalPrice+=value;
+    qDebug() << "new total price: " << totalPrice;
 
+
+    query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " and name = customPrice2SpinBox");
+    qDebug() << "finding custom ";
+    query.last();
+    int value2 = query.value(3).toInt();
+    qDebug() <<"customValue " << value;
+    totalPrice+=value2;
+    qDebug() << "new total price: " << totalPrice;
+
+    qDebug() << totalPrice;
     return totalPrice;
+
 }
 
 /*
@@ -1042,11 +1052,18 @@ int quoteDBPriceManager::tempPriceQuote(Quote q,QList<QString> array, int index,
 
         query.exec("SELECT * FROM quoteTableTemp WHERE quoteNum = " + QString::number(quoteNum) + " AND connectionName = '"+array.at(i)+"'");
         if(query.last() && query.value(3).toInt() > 1 && re.exactMatch(query.value(3).toString())){
+
+
+
+
+
+
+            qDebug() << array;
             if(findOverride(array[i],quoteNum)){
                         //qDebug() << "FOUND AN OVERRIDE @ " << quoteNum << " OF " << array[i];
                         totalPrice+=0;
             }
-            if(array.at(i) == "wheelSize"){
+          else  if(array.at(i) == "wheelSize"){
                 int value = query.value(3).toInt();
                 if(value == 12){
                     query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
@@ -1068,6 +1085,8 @@ int quoteDBPriceManager::tempPriceQuote(Quote q,QList<QString> array, int index,
 
 
             }
+
+
             else{
                 int value = query.value(3).toInt();
                 query.exec("SELECT * FROM quoteItems WHERE name = '"+array.at(i)+"';");
@@ -1102,6 +1121,7 @@ int quoteDBPriceManager::tempPriceQuote(Quote q,QList<QString> array, int index,
     }
 
       if(q.custom1 != "" && q.custom1!= " " ){
+          qDebug() << 'CUSTOM PRICE 1' << q.custom1;
         totalPrice+=q.customPrice1;
 
     }
@@ -1110,6 +1130,27 @@ int quoteDBPriceManager::tempPriceQuote(Quote q,QList<QString> array, int index,
         totalPrice+=q.customPrice2;
 
     }
+
+
+
+
+    query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " and name = customPrice1SpinBox");
+    qDebug() << "finding custom ";
+    query.last();
+    int value = query.value(3).toInt();
+    qDebug() <<"customValue " << value;
+    totalPrice+=value;
+    qDebug() << "new total price: " << totalPrice;
+
+
+    query.exec("SELECT * FROM quoteTable WHERE quoteNum = " + QString::number(quoteNum) + " and name = customPrice2SpinBox");
+    qDebug() << "finding custom ";
+    query.last();
+    int value2 = query.value(3).toInt();
+    qDebug() <<"customValue " << value;
+    totalPrice+=value2;
+    qDebug() << "new total price: " << totalPrice;
+
 
 
     return totalPrice;

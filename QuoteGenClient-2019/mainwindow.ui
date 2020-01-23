@@ -1298,7 +1298,7 @@
              <rect>
               <x>10</x>
               <y>23</y>
-              <width>131</width>
+              <width>169</width>
               <height>83</height>
              </rect>
             </property>
@@ -1315,9 +1315,6 @@
              </item>
              <item>
               <widget class="QRadioButton" name="hdChainRadioButton">
-               <property name="toolTip">
-                <string>3,750.00</string>
-               </property>
                <property name="text">
                 <string>HD Chain</string>
                </property>
@@ -2818,7 +2815,6 @@
   <tabstop>magnumRadioButton</tabstop>
   <tabstop>carriageKneesSpinBox</tabstop>
   <tabstop>stdChainRadioButton</tabstop>
-  <tabstop>hdChainRadioButton</tabstop>
   <tabstop>barRadioButton</tabstop>
   <tabstop>twoStrandDeckRadioButton</tabstop>
   <tabstop>threeStrandDeckRadioButton</tabstop>

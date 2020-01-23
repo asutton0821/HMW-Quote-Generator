@@ -46,10 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
     length = 0;
     this->setFixedSize(QSize(797,403));
 
+ui->topSawCheckBox->setToolTip("hello");
 
 
 
-   //this->ui->tabWidget->hide();*/
 
     int total = ui->totalLabel->text().toInt();
 
@@ -61,8 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    if(au.buttonPressed == 1){
        ui->tabWidget->hide();
-       //ui->saveCheckBox->setChecked(false);
-       //ui->saveCheckBox->setHidden(true);
+
 
 
 
@@ -76,8 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->totalLabel->setText(&"Total Price: \n" [tPrice]);
         qS.show();
         qS.begin();
-        pS.show();
-        pS.getNameAndPrices();
+       // pS.show();
+       // pS.getNameAndPrices();
 
 
 
@@ -543,7 +542,8 @@ QList<QString> MainWindow::applyCheckedItems(){
 
         if(namesChecked.at(j) != connectionsFrom[p]){
 
-            //qDebug() << "j is " << j << "p is " << p << " in the does not equal statement! ";
+           // qDebug() << "j is " << j << "p is " << p << " in the does not equal statement! ";
+          //  j++;
         }
         else if(namesChecked.at(j) == connectionsFrom[p]){
             connectionNamesChecked.append(connectionsTo[p]);
@@ -611,13 +611,16 @@ void MainWindow::reset(bool startOver){
     connect(ui->platform48RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform60RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform52RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
-    connect(ui->wheelSizeCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect checkbox
+   // connect(ui->wheelSizeCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect checkbox
     //connect(ui->saveCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons()));
     connect(ui->magnumLTSetshaftradioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons()));//connect radio button
 
-    connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
+
+
+
+    connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect radio button
     connect(ui->cantTurnersCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
-    connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectRadioButtons()));
+    connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectCheckBoxes()));
     connect(ui->horizontalEdgerCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
     connect(ui->linearCompSetworksCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes()));
     connect(ui->linearCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectCheckBoxes()));
@@ -686,11 +689,11 @@ void MainWindow::reset(bool startOver){
 
    connect(ui->platform40RadioButton, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
    connect(ui->magnumRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
-   connect(ui->compsetRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+
    connect(ui->platform48RadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
    connect(ui->threeStrandDeckRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
-   connect(ui->nanosetRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
-   connect(ui->camboxRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+
+
 
 
    connect(ui->cantTurnersSpinBox,SIGNAL(valueChanged(int i)), this, SLOT(push(bool)));
@@ -2453,6 +2456,7 @@ void MainWindow::priceSideBar(){
     else{
         ui->actionClose_Price_Sidebar->setText("Close Price Sidebar");
         pS.show();
+        pS.getNameAndPrices();
         pS.update();
 
     }
@@ -2504,6 +2508,10 @@ void MainWindow::doTheThing(){
 
 void MainWindow::loadDefaults(){
 
+
+    connectionsTo[i] = "wheelSize";
+    connectionsFrom[i] = "wheelSizeSpinBox";
+    i++;
     connectionsTo[i] = "mill40";
     connectionsFrom[i] = "platform40RadioButton";
     i++;
@@ -2543,9 +2551,31 @@ void MainWindow::loadDefaults(){
     connectionsTo[i] = "phone2";
     connectionsFrom [i] = "phone2LineEdit";
     i++;
+    connectionsTo[i] = "compName";
     connectionsFrom[i] = "companyNameLineEdit";
-    connectionsFrom[i] = "compName";
     i++;
+
+
+    connectionsTo[i] = "barLog";
+    connectionsFrom[i] = "barRadioButton";
+    i++;
+    connectionsTo[i] = "cantPushOff";
+    connectionsFrom[i] = "cantPushOffSpinBox";
+    i++;
+    connectionsTo[i] = "brownsville";
+    connectionsFrom[i] = "brownsvilleSpinBox";
+    i++;
+    connectionsTo[i] = "custom1";
+    connectionsFrom[i] = "customPrice1SpinBox";
+    i++;
+    connectionsTo[i] = "custom2";
+    connectionsFrom[i] = "customPrice2SpinBox";
+    i++;
+
+
+
+
+
     /*
      * nanosetRadioButton:nanoSet
 compsetRadioButton:compSet
@@ -2581,8 +2611,8 @@ void MainWindow::push(bool checked){
     ui->totalLabel->setText( "<font color='green'>Total Price: "+QString::number(totalPrice));
   //  qDebug() << "totalPrice = " << totalPrice;
 
-*/
 
+*/
     setTemporaryConnections(connectionsFrom,connectionsTo,i);
     //qDebug() << "Built Struct";
 
@@ -2622,21 +2652,31 @@ void MainWindow::iterateChildren(QWidget * parent){
 
 
               if(parentChild->objectName().contains("CheckBox")){
+
+
+
                  replacedString = parentChild->objectName().replace("CheckBox","");
                  checkBoxes.append( (QCheckBox *) parentChild);
 
 
+
               }
-              else if(parentChild->objectName().contains("SpinBox")){
-                  replacedString = parentChild->objectName().replace("SpinBox","");
-              }
+            //  else if(parentChild->objectName().contains("SpinBox")){
+
+
+            //     replacedString = parentChild->objectName().replace("SpinBox","");
+           //  }
               else if(parentChild->objectName().contains("RadioButton")){
+                  qDebug() << "found a radio button " << parentChild->objectName();
                   replacedString = parentChild->objectName().replace("RadioButton","");
-                  replacedString = parentChild->objectName().replace("CheckBox","");
+                //  replacedString = parentChild->objectName().replace("CheckBox","");
 
               }
               else if(parentChild->objectName().contains("LineEdit")){
-                  replacedString = parentChild->objectName().replace("LineEdit","");
+
+                      replacedString = parentChild->objectName().replace("LineEdit","");
+
+
               }
               else if(parentChild->objectName().contains("PlainTextEdit")){
                   replacedString = parentChild->objectName().replace("PlainTextEdit","");
@@ -2647,10 +2687,11 @@ void MainWindow::iterateChildren(QWidget * parent){
 
 
 
-              QSqlQuery sql;
-              sql.exec("SELECT price from quoteItems where name = '"+replacedString+"'");//Queries the database for each part and price
-              sql.last();
+           //  QSqlQuery sql;
+           //   sql.exec("SELECT price from quoteItems where name = '"+replacedString+"'");//Queries the database for each part and price
+        //      sql.last();
               //qDebug() << "String: " << replacedString << " Price: " <<  sql.value(0).toInt();
+
 
 
 

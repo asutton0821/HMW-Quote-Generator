@@ -29,10 +29,38 @@ void PriceSideBar::getNameAndPrices(){
 
         QString description = q.value(1).toString();
         ui->pricesTableBox->insertRow(i);
+        if(description == "Wheel Size"){
+
+            description = "Wheel Size 12";
+            QTableWidgetItem * des = new QTableWidgetItem ();
+            des->setData(Qt::DisplayRole,description);
+            ui->pricesTableBox->setItem(i,0,des);
+            int price = 1000;
+            QTableWidgetItem * prices = new QTableWidgetItem ();
+            prices->setData(Qt::DisplayRole,price);
+            ui->pricesTableBox->setItem(i,1,prices);
+            i++;
+
+            QString description2 = "Wheel Size 14";
+            QTableWidgetItem * des2 = new QTableWidgetItem ();
+            des2->setData(Qt::DisplayRole,description2);
+            ui->pricesTableBox->setItem(i,0,des2);
+            int price2 = 1500;
+            QTableWidgetItem * prices2 = new QTableWidgetItem ();
+            prices2->setData(Qt::DisplayRole,price2);
+            ui->pricesTableBox->setItem(i,1,prices2);
+            i++;
+            qDebug() << "MADE IT TO 14 WOOH";
+
+
+
+        }
+
+
         QTableWidgetItem * des = new QTableWidgetItem ();
         des->setData(Qt::DisplayRole,description);
         ui->pricesTableBox->setItem(i,0,des);
-        int price = q.value(2).toUInt();
+        int price = q.value(2).toInt();
         QTableWidgetItem * prices = new QTableWidgetItem ();
         prices->setData(Qt::DisplayRole,price);
         ui->pricesTableBox->setItem(i,1,prices);
