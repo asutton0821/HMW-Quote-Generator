@@ -31,6 +31,7 @@ public:
     QDate compDate;
 
 
+
 signals:
 
 private:
@@ -39,7 +40,7 @@ private:
     int totalPrice;
 
 public slots:
-    void print(int,Quote,QList<QString>, int);
+    void print(int,Quote,QList<QString>, int, QString);
     void updateLocation(QString);
     void updateCompletionDate(QDate);
     QDate getCompletionDate(void);
@@ -55,6 +56,7 @@ public slots:
     bool findInArray(QList<QString> array, QString value, int index);
     QString getQuotedMill(QList<QString> array, int index);
     bool findOverride(QString overrideValue, int quoteNum);
+
 
 
 };

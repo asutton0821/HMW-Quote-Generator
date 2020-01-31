@@ -33,6 +33,7 @@ public:
     bool findInArray(QList<QString> array, QString value, int index);
     //int priceQuote(Quote q, QString array[100], int index, int quoteNum); Deprecated. Do not use.
     int priceQuote(Quote q,QList<QString> array, int index, int quoteNum);
+    int tempPriceQuote(Quote q,QList<QString> array, int index, int quoteNum);
     void resetOverrideArray(void);
     void processDynamicOverrides(QString overrideValue,int quoteNum);
     bool findOverride(QString overrideValue, int quoteNum);
