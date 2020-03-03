@@ -2,6 +2,7 @@
 #include "ui_quotestatus.h"
 #include "mainwindow.h"
 #include <QSystemTrayIcon>
+#include <QCloseEvent>
 
 QuoteStatus::QuoteStatus(QWidget *parent) :
     QDialog(parent),
@@ -71,7 +72,7 @@ void QuoteStatus::accept(){
         int listRow = list.at(0).row();
         int quoteNum = ui->statusTableBox->item(listRow,0)->text().toInt();
         quoteNumberToGo = quoteNum;
-        qDebug() << "jumping to quote number " << quoteNum;
+       // qDebug() << "jumping to quote number " << quoteNum;
     }
 
 
@@ -270,6 +271,13 @@ void QuoteStatus::count(){
 
 
 
+}
+
+
+void QuoteStatus::closeEvent (QCloseEvent *event)
+{
+    event->ignore();
+    this->hide();
 }
 
 

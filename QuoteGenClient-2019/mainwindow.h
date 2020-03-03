@@ -11,7 +11,10 @@
 #include <QStringRef>
 #include <QtCore>
 #include <QtGui>
+#include "pricesidebar.h"
+#include "customerinfo.h"
 
+#define TOGGLECONTACTBAR true
 
 
 namespace Ui {
@@ -28,26 +31,35 @@ public:
     void freeze(void);
     void unfreeze(void);
     bool STOPAPP;
+    void makeToolTips(QWidget * parent);
 
 private:
     Ui::MainWindow *ui;
     QuoteDbManager qdbMan;
     QuoteDbManager qdb;
+    customerInfo cs;
     int quoteNum;
     quotePDFManager qPDF;
     quoteDBPriceManager qP;
     int length;
     QString priceArray[100];
     int pIndex;
-    QString connectionsTo[100];
-    QString connectionsFrom[100];
+    QString connectionsTo[200];
+    QString connectionsFrom[200];
     int i;
     QString loginName;
     QuoteStatus qS;
+    PriceSideBar pS;
     bool newQuote;
     int expandOrShrink;
     QStringList objectNames;
     QSystemTrayIcon * trayIcon;
+    QWidget * widgets[200];
+    int num;
+    QList<QCheckBox * > checkBoxes;
+    int total;
+    QList<QWidget *> listOfWidgets;
+    customerInfo cS;
 
 
 
@@ -77,6 +89,7 @@ private slots:
     void uncheckOverrides(void);
     void loadConnectionFile(void);
     void setConnections(QString array[], QString connectionArray[], int index);
+    void setTemporaryConnections(QString array[], QString connectionArray[], int index);
     void getConnections(int quoteNum, QString to[], QString from[], int index);
     void updateCurrentQuote(int quoteNumber);
     void clearQuoteForm(void);
@@ -92,11 +105,17 @@ private slots:
     void checkOverrides(void);
     void iterateChildren(QWidget * parent);
     void loadDefaults();
-
     void formatText();
 
     QList<QString> applyCheckedItems(void);
+
    // QList<QString> applyCheckedItems2(void);
+    void priceSideBar();
+    void push(bool);
+    void customerinfo();
+    //void tooltip();
+
+
 
 };
 

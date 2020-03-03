@@ -21,6 +21,9 @@
 #include <QSystemTrayIcon>
 #include <QtCore>
 #include <QtGui>
+#include <QRegExpValidator>
+#include <QRegExp>
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -32,12 +35,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
+
     STOPAPP = false;
 
 
     authentication au;
     au.exec();
-    qDebug() << "accepted!";
+   // qDebug() << "accepted!";
     qApp->installEventFilter(this);
     ui->setupUi(this);
     newQuote = true;
@@ -47,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-   //this->ui->tabWidget->hide();*/
+
 
 
 
@@ -55,24 +60,31 @@ MainWindow::MainWindow(QWidget *parent) :
     i = 0;
     this->freeze();
    expandOrShrink = 0; //0= shrink, 1 = expand
-
+    num = 0;
 
    if(au.buttonPressed == 1){
        ui->tabWidget->hide();
-       //ui->saveCheckBox->setChecked(false);
-       //ui->saveCheckBox->setHidden(true);
+
 
 
 
 
         loginName = au.getUserDescription();
-        qDebug() << loginName;
+       // qDebug() << loginName;
        this->unfreeze();
         ui->loginLabel->setText("Logged in as: "+loginName);
-        qDebug() << ui->loginLabel->text();
-
+       // qDebug() << ui->loginLabel->text();
         qS.show();
         qS.begin();
+
+        if(TOGGLECONTACTBAR){
+            cs.show();
+            cs.addContacts();
+        }
+
+
+       // pS.show();
+       // pS.getNameAndPrices();
 
 
 
@@ -82,21 +94,21 @@ MainWindow::MainWindow(QWidget *parent) :
            iterateChildren(ui->centralWidget);
 
         checkQuoteStatus();
-        qDebug() << "Quote Number = " << qdbMan.getNumQuotes();
+      //  qDebug() << "Quote Number = " << qdbMan.getNumQuotes();
         if(qdbMan.getNumQuotes() == 1){
-            qDebug() << "We are saying yes to reset";
+           // qDebug() << "We are saying yes to reset";
             reset(true);
-            qDebug() << "isNewQuote? : " << newQuote;
+           // qDebug() << "isNewQuote? : " << newQuote;
         }
         else{
-            qDebug() << "SAYING NO TO RESET";
+          //  qDebug() << "SAYING NO TO RESET";
           reset(false); //makes more sense to just call reset since we already have it here
-          qDebug() << "isNewQuote? : " << newQuote;
+         // qDebug() << "isNewQuote? : " << newQuote;
         }
 
     }
     else{
-        qDebug() << "false value";
+       // qDebug() << "false value";
         this->hide();
         qS.hide();
         STOPAPP = true;
@@ -104,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     if(STOPAPP == true){
-        qDebug() << "Stopping";
+       // qDebug() << "Stopping";
                     this->hide();
         this->close();
     }
@@ -112,8 +124,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
 //iterateChildren(ui->centralWidget);
 
+    ui->phoneLineEdit->setValidator(new QRegExpValidator(QRegExp("[-()0-9]*")));
+    ui->phone2LineEdit->setValidator(new QRegExpValidator(QRegExp("[-()0-9]*")));
+    ui->faxLineEdit->setValidator(new QRegExpValidator(QRegExp("[-()0-9]*")));
+
+
+
+
+
+    makeToolTips(ui->centralWidget);
 
 
 }
@@ -370,7 +392,15 @@ formatText(); // go ahead and format the string.
   //  qDebug() << "# of quotes = " << numQuotes << " quote #  = " << quoteNum;
 
 
-
+if(cs.checkContactExist(ui->nameLineEdit->text())){
+      qDebug() << "it exists";
+}
+else{
+    qDebug() << "does not exist";
+    cs.addContact(ui->nameLineEdit->text(), ui->companyNameLineEdit->text(), ui->address1LineEdit->text(), ui->address2LineEdit->text(), ui->cityLineEdit->text(), ui->stateComboBox->currentText(), ui->zipCodeLineEdit->text(), ui->emailLineEdit->text(), ui->faxLineEdit->text(), ui->phoneLineEdit->text(), ui->phone2LineEdit->text() );
+    cs.clear();
+    cs.addContacts();
+}
 
 
 Quote q; //Check quote and store in database.
@@ -383,24 +413,13 @@ q.name = ui->nameLineEdit->text();
 
 
 
-/*if(ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
-    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires a platform size to be checked!"));
-    return;
-}
-if(ui->magnumRadioButton->isChecked() == false && ui->challengerRadioButton->isChecked() == false && ui->magnumLTSetshaftradioButton->isChecked()==false){
-    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires a carriage type to be checked!"));
-    return;
-}
-*/
+
 
 if(ui->nameLineEdit->text() == "" && ui->nameLineEdit->text() == " ") {
     QMessageBox::information(this, tr("Invalid!"), tr("Quote requires name field to not be blank!"));
         return;
 }
-/*if( ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
-    QMessageBox::information(this, tr("Invalid!"), tr("Quote requires platform size to be checked!"));
-  // return;
-}*/
+
 if(ui->phoneLineEdit->text().count() < 10){ //warn if less than 10.
     QMessageBox::information(this, tr("Invalid Phone Number"), tr("Phone number requires 10 digits"));
     return;
@@ -437,7 +456,7 @@ q.custom2 = ui->custom2LineEdit->text();
 //custom
 q.customPrice1 = ui->customPrice1SpinBox->text().toInt();
 q.customPrice2 = ui->customPrice2SpinBox->text().toInt();
-//q.customPrice3 = ui->customPrice3SpinBox->text().toInt();
+
 
 //saw specs
 q.sawSpecs = ui->sawSpeedSpinBox->text().toInt();
@@ -445,12 +464,12 @@ q.sawSpecs = ui->sawSpeedSpinBox->text().toInt();
 
 
 if(newQuote == true){ // a new quote is being created
-    qDebug() << "We are creating a new quote!!";
+ //   qDebug() << "We are creating a new quote!!";
     updateQuoteNum(); //update this to reflect what the ACTUAL quote number is
     q.quoteNum = ui->quoteNumLineEdit->text().toInt();
 }
 else{
-    qDebug() << "We are just updating";
+   // qDebug() << "We are just updating";
     q.quoteNum = ui->quoteNumLineEdit->text().toInt(); //otherwise, just set the current number since we are currently updating a quote.
 }
 
@@ -467,6 +486,8 @@ QList<QString> list = applyCheckedItems();
 
 
 qP.priceQuote(q,list,list.count(),ui->quoteNumLineEdit->text().toInt());
+
+
 
 
 
@@ -523,9 +544,14 @@ QList<QString> MainWindow::applyCheckedItems(){
         //qDebug() << "comparing to connectionsFrom(" << p << ") = " << connectionsFrom[p];
        // qDebug() << "items counted: " << namesChecked.count();
 
+        if(namesChecked.isEmpty()){
+            return namesChecked;
+        } //THIS MIGHT BREAK SOMETHING, NOT SURE
+
         if(namesChecked.at(j) != connectionsFrom[p]){
 
-            //qDebug() << "j is " << j << "p is " << p << " in the does not equal statement! ";
+           // qDebug() << "j is " << j << "p is " << p << " in the does not equal statement! ";
+          //  j++;
         }
         else if(namesChecked.at(j) == connectionsFrom[p]){
             connectionNamesChecked.append(connectionsTo[p]);
@@ -570,6 +596,13 @@ QList<QString> MainWindow::applyCheckedItems(){
 
 void MainWindow::reset(bool startOver){
     ui->setupUi(this);
+
+
+
+
+
+
+
     connect(ui->okCancelButtonBox, SIGNAL(rejected()), this, SLOT(reject())); //Connect Cancel Button
     connect(ui->okCancelButtonBox, SIGNAL(accepted()), this, SLOT(accept())); //Connect OK button
     connect(ui->okCancelButtonBox2, SIGNAL(rejected()), this, SLOT(reject())); //Connect Cancel Button
@@ -577,6 +610,7 @@ void MainWindow::reset(bool startOver){
 
     connect(ui->previousPushButton, SIGNAL(clicked()), this, SLOT(previousButtonPushed())); //Connect Previous Button
     connect(ui->nextPushButton, SIGNAL(clicked()), this, SLOT(nextButtonPushed())); //Connect Next Button
+    connect(ui->newQuotePushButton, SIGNAL(clicked()), this, SLOT(resetButton())); //connects new quote button
 
     connect(ui->quoteNumLineEdit, SIGNAL(textEdited(QString)), this, SLOT(onTextChanged())); //Connect TextEdit on numLineEdit
     connect(ui->phoneLineEdit,SIGNAL(textEdited(QString)),this, SLOT(formatText()));
@@ -586,18 +620,23 @@ void MainWindow::reset(bool startOver){
     connect(ui->platform48RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform60RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
     connect(ui->platform52RadioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
-    connect(ui->wheelSizeCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect checkbox
-    //connect(ui->saveCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons()));
+
+
     connect(ui->magnumLTSetshaftradioButton, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons()));//connect radio button
 
-    connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectRadioButtons())); //Connect radio button
+
+
+
+    connect(ui->cantPushOffCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect radio button
     connect(ui->cantTurnersCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
-    connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectRadioButtons()));
+    connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectCheckBoxes()));
     connect(ui->horizontalEdgerCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes())); //Connect checkbox
     connect(ui->linearCompSetworksCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes()));
     connect(ui->linearCheckBox,SIGNAL(toggled(bool)),this,SLOT(connectCheckBoxes()));
     connect(ui->deluxeSeatCheckBox, SIGNAL(toggled(bool)), this, SLOT(connectCheckBoxes()));
     connect(ui->actionNew_Quote, SIGNAL(triggered(bool)),this,SLOT(resetButton())); //connect newQuote action
+
+
     connect(ui->actionAbout_Quote_Generator, SIGNAL(triggered(bool)),this,SLOT(displayVersion())); //connect About Action
     connect(ui->pdfPushButton, SIGNAL(clicked()),this,SLOT(printPDF())); //connect PDF Button
     connect(ui->actionChange_Save_Location, SIGNAL(triggered(bool)),this,SLOT(changeSaveLocation()));
@@ -610,7 +649,10 @@ void MainWindow::reset(bool startOver){
    connect(ui->actionFilterExpired, SIGNAL(triggered(bool)),this,SLOT(quoteFilterMenuSelection()));
    connect(ui->actionCompletionDate,SIGNAL(triggered(bool)),this,SLOT(showCompDateBox()));
     connect(ui->actionClose_Sidebar,SIGNAL(triggered(bool)),this,SLOT(sidebar()));
+    connect(ui->actionClose_Price_Sidebar,SIGNAL(triggered(bool)), this, SLOT(priceSideBar()));
+    connect(ui->actionClose_Customer_Info, SIGNAL(triggered(bool)), this, SLOT(customerinfo()));
    //
+
    connect(ui->actionSetOpen, SIGNAL(triggered(bool)),this,SLOT(quoteMenuSelection()));
    connect(ui->actionSetClosed, SIGNAL(triggered(bool)),this,SLOT(quoteMenuSelection()));
    //Connect price change items
@@ -627,11 +669,55 @@ void MainWindow::reset(bool startOver){
    connect(ui->actionhamDog, SIGNAL(triggered()),this,SLOT(connectOverrideFunctions()));
    connect(ui->actionextraAxle, SIGNAL(triggered()),this,SLOT(connectOverrideFunctions()));
 
-  // connect(ui->actionhdChain, SIGNAL(triggered(bool)),this,SLOT(connectOverrideFunctions()));
-  // connect(ui->actionbarLog, SIGNAL(triggered(bool)),this,SLOT(connectOverrideFunctions()));
+
    connect(ui->actionlinearCarriage, SIGNAL(triggered()),this,SLOT(connectOverrideFunctions()));
 
    connect(ui->tabButton,SIGNAL(clicked()),this,SLOT(doTheThing()));
+
+
+   //CONNECT TOTAL PRICE HERE
+   connect(ui->cantPushOffCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->verticalEdgerCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->horizontalEdgerCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->topSawCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->cantTurnersCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->brownsvilleCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->feedJoystickCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->offbearerBeltCheckBox,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->linearCompSetworksCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->linearCheckBox,SIGNAL(toggled(bool)),this,SLOT(push(bool)));
+   connect(ui->deluxeSeatCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->fourStrandDeckRadioButton, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   //connect(ui->hdOutfeedCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->sawdustChainCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->drivePulleyCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->extraLegCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->hamDogCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->extraAxleCheckBox, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+
+
+   connect(ui->platform40RadioButton, SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->magnumRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+
+   connect(ui->platform48RadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+   connect(ui->threeStrandDeckRadioButton,SIGNAL(toggled(bool)), this, SLOT(push(bool)));
+
+
+
+
+  /*
+   *
+   * Find a spinbox connection to trigger "push";
+   */
+
+
+
+
+   //
+
+
+
+
 
    ui->salesPersonComboBox->addItems(getDatabaseElements("authentication"));
    ui->salesPersonComboBox->setCurrentText(loginName);
@@ -651,6 +737,18 @@ void MainWindow::reset(bool startOver){
     if(startOver == true){ //this prevents this from being called on the first quote... this will make it so we can determine if one quote is already available or not.
         newQuote = true; //this will tell the program that we ARE creating a new quote. This should SOVLE the real-time dilemna
     }
+
+    QSqlQuery query;
+    query.exec("TRUNCATE TABLE quoteTableTemp");
+
+
+
+
+
+
+   makeToolTips(ui->centralWidget); //to keep up with price updates
+
+
 
 
 }
@@ -757,15 +855,16 @@ void MainWindow::connectRadioButtons(void){//if radio button <- goes here for mo
 
 
 
-        ui->wheelSizeSpinBox->setValue(12);
+
         ui->magnumLTSetshaftradioButton->setEnabled(true);
+
 
 
 
         ui->stdChainRadioButton->setChecked(true);
         ui->camboxRadioButton->setChecked(true);
         ui->magnumRadioButton->setChecked(true);
-        ui->wheelSizeCheckBox->setChecked(true);
+        //ui->wheelSizeCheckBox->setChecked(true);
 
         ui->fourStrandDeckRadioButton->setEnabled(false);
 
@@ -782,10 +881,7 @@ void MainWindow::connectRadioButtons(void){//if radio button <- goes here for mo
 
                }
 
-       // if(!ui->twoStrandDeckRadioButton->isChecked() && !ui->threeStrandDeckRadioButton->isChecked() || ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
-          //  ui->twoStrandDeckRadioButton->setChecked(true);
 
-       // }
 
     }
     if(ui->platform48RadioButton->isChecked() == true && ui->carriageKneesSpinBox->value() >= 2){
@@ -803,10 +899,6 @@ void MainWindow::connectRadioButtons(void){//if radio button <- goes here for mo
             ui->threeStrandDeckRadioButton->setChecked(true);
         }
 
-       // if(ui->twoStrandDeckRadioButton->isChecked() || !ui->threeStrandDeckRadioButton->isChecked() || ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
-           // ui->threeStrandDeckRadioButton->setChecked(true);
-
-        //}
 
 
         if(!ui->twoStrandDeckRadioButton->isChecked() && !ui->threeStrandDeckRadioButton->isChecked() && !ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
@@ -830,10 +922,6 @@ void MainWindow::connectRadioButtons(void){//if radio button <- goes here for mo
             ui->fourStrandDeckRadioButton->setChecked(true);
         }
 
-       // if(ui->twoStrandDeckRadioButton->isChecked() || ui->threeStrandDeckRadioButton->isChecked() || !ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
-            //ui->fourStrandDeckRadioButton->setChecked(true);
-
-       // }
 
         if(!ui->twoStrandDeckRadioButton->isChecked() && !ui->threeStrandDeckRadioButton->isChecked() && !ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
                     ui->fourStrandDeckRadioButton->setChecked(true);
@@ -855,10 +943,6 @@ void MainWindow::connectRadioButtons(void){//if radio button <- goes here for mo
             ui->fourStrandDeckRadioButton->setChecked(true);
         }
 
-        //if(ui->twoStrandDeckRadioButton->isChecked() || !ui->threeStrandDeckRadioButton->isChecked() || ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
-           // ui->threeStrandDeckRadioButton->setChecked(true);
-
-        //}
 
         if(!ui->twoStrandDeckRadioButton->isChecked() && !ui->threeStrandDeckRadioButton->isChecked() && !ui->fourStrandDeckRadioButton->isChecked() && !ui->noDeckRadioButton->isChecked()){
                     ui->threeStrandDeckRadioButton->setChecked(true);
@@ -897,10 +981,6 @@ void MainWindow::connectCheckBoxes(){
         }
 
     }
-  /*  if(ui->horizontalEdgerCheckBox->isChecked()){
-        QMessageBox::information(this, tr("Horizontal Edger Checked"), tr("Note: The price from this must be retrieved from the manufacturer."));
-    }
-   */
 
 
     /*
@@ -928,7 +1008,7 @@ void MainWindow::connectCheckBoxes(){
 
 void MainWindow::displayVersion(){
 
-    QMessageBox::information(this, tr("Quote Generator"), tr("Hurdle Machine Works\nQuote Generator Client\nVersion 1.3 \nCreated By: Colson Sutton \nCompleted By:BJ Dunson") );
+    QMessageBox::information(this, tr("Quote Generator"), tr("Hurdle Machine Works\nQuote Generator Client\nVersion 2 \n Project Overseer: Jeff Hurdle \n Created By: Colson Sutton \n Completed By:BJ Dunson") );
 
 }
 
@@ -955,13 +1035,6 @@ void MainWindow::printPDF(){
     if(ui->nameLineEdit->text() == " " || ui->nameLineEdit->text() == ""){
             return;
     }
-    //if(ui->platform40RadioButton->isChecked() == false && ui->platform48RadioButton->isChecked() == false && ui->platform60RadioButton->isChecked() == false && ui->platform52RadioButton->isChecked() == false){
-
-        //return;
-    //}
-    //if(ui->magnumRadioButton->isChecked() == false && ui->challengerRadioButton->isChecked() == false){
-     //  return;
-    //}
 
     if((ui->emailLineEdit->text() != "" && ui->emailLineEdit->text() != " ") || (ui->phoneLineEdit->text() != " " && ui->phoneLineEdit->text() != "") || (ui->phone2LineEdit->text() != "" && ui->phone2LineEdit->text() != " ") ){
 
@@ -980,12 +1053,33 @@ void MainWindow::printPDF(){
     int tPrice = qP.getTotalPrice();
     qPDF.updateTotalPrice(tPrice);
 
+
    // setConnections(connectionsFrom, connectionsTo,i);
   //  qPDF.print(ui->quoteNumLineEdit->text().toInt(),q,priceArray,pIndex);
 
 
+   // QString fileName = QFileDialog::getSaveFileName(this,
+          //  tr("Save PDF"), "",
+         //   tr("PDF (*.pdf)"));
 
-    qPDF.print(ui->quoteNumLineEdit->text().toInt(),q,list,list.count());
+    QString fileName = "";
+   // qDebug() << "Name is " << ui->nameLineEdit->text();
+
+    if(ui->nameLineEdit->text() != ""){
+        fileName = fileName + ui->nameLineEdit->text() + " Quote " + ui->quoteNumLineEdit->text();
+    }
+
+    if(ui->companyNameLineEdit->text() != ""){
+        fileName = fileName+"-"+ ui->companyNameLineEdit->text();
+    }
+
+    fileName = fileName+"-"+ui->dateEdit->date().toString("MM-dd-yy");
+
+
+
+        //qDebug() << fileName;
+
+    qPDF.print(ui->quoteNumLineEdit->text().toInt(),q,list,list.count(),fileName);
 
     //qDebug() << "Generated!";
 
@@ -1004,7 +1098,7 @@ void MainWindow::changeSaveLocation(){
                                QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
 
     qPDF.updateLocation(saveName);
-    qDebug() << "file location updated to " << saveName;
+  //  qDebug() << "file location updated to " << saveName;
 
 }
 
@@ -1021,10 +1115,10 @@ void MainWindow::promptPacketPrint(){
       reply = QMessageBox::question(this, "Print Entire Packet?", "Quote",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
+      //  qDebug() << "Yes was clicked";
         QApplication::quit();
       } else {
-        qDebug() << "Yes was *not* clicked";
+      //  qDebug() << "Yes was *not* clicked";
       }
 
 }
@@ -1035,48 +1129,48 @@ void MainWindow::promptPacketPrint(){
  */
 
 void MainWindow::formatText(){
-   \
+
         int numberOfCharacters = ui->phoneLineEdit->text().count(); //long variable names, what is this? Apple?
-         qDebug() << "Number of Characters: " << numberOfCharacters;
-        if(numberOfCharacters == 10){ //9012860096...
+      //   qDebug() << "Number of Characters: " << numberOfCharacters;
+        if(numberOfCharacters == 10 && ui->phoneLineEdit->text().contains(QRegExp("^[0-9]"))){ //9012860096...
 
             QString phone = ui->phoneLineEdit->text();
             QString firstThree = phone.mid(0,3);
             QString middleThree = phone.mid(3,3);
             QString lastFour = phone.mid(6,4);
-            qDebug() << firstThree << middleThree << lastFour;
+           // qDebug() << firstThree << middleThree << lastFour;
             QString newString = firstThree.left(0).append("(") + firstThree.right(3).append(")") + middleThree.right(7).append("-")+phone.mid(6,4);
-            qDebug() << newString;
+          //  qDebug() << newString;
             ui->phoneLineEdit->setText(newString);
 
 
     }
         int numberOfCharacters2 = ui->phone2LineEdit->text().count(); //long variable names, what is this? Apple?
-         qDebug() << "Number of Characters: " << numberOfCharacters;
-        if(numberOfCharacters2 == 10){ //9012860096...
+       //  qDebug() << "Number of Characters: " << numberOfCharacters2;
+        if(numberOfCharacters2 == 10 && ui->phone2LineEdit->text().contains(QRegExp("^[0-9]"))){ //9012860096...
 
             QString phone = ui->phone2LineEdit->text();
             QString firstThree = phone.mid(0,3);
             QString middleThree = phone.mid(3,3);
             QString lastFour = phone.mid(6,4);
-            qDebug() << firstThree << middleThree << lastFour;
+            //qDebug() << firstThree << middleThree << lastFour;
             QString newString = firstThree.left(0).append("(") + firstThree.right(3).append(")") + middleThree.right(7).append("-")+phone.mid(6,4);
-            qDebug() << newString;
+            //qDebug() << newString;
             ui->phone2LineEdit->setText(newString);
 
 
     }
         int numberOfCharacters3 = ui->faxLineEdit->text().count(); //long variable names, what is this? Apple?
-         qDebug() << "Number of Characters: " << numberOfCharacters;
-        if(numberOfCharacters3 == 10){ //9012860096...
+         //qDebug() << "Number of Characters: " << numberOfCharacters;
+        if(numberOfCharacters3 == 10 && ui->faxLineEdit->text().contains(QRegExp("^[0-9]"))){ //9012860096...
 
             QString phone = ui->faxLineEdit->text();
             QString firstThree = phone.mid(0,3);
             QString middleThree = phone.mid(3,3);
             QString lastFour = phone.mid(6,4);
-            qDebug() << firstThree << middleThree << lastFour;
+           // qDebug() << firstThree << middleThree << lastFour;
             QString newString = firstThree.left(0).append("(") + firstThree.right(3).append(")") + middleThree.right(7).append("-")+phone.mid(6,4);
-            qDebug() << newString;
+           // qDebug() << newString;
             ui->faxLineEdit->setText(newString);
 
 
@@ -1210,7 +1304,7 @@ void MainWindow::checkQuoteStatus(){
                 query.prepare("UPDATE quoteTable SET value=:statusQuote WHERE quoteNum=:quoteNum AND connectionName = 'status';");
                 query.bindValue(":statusQuote","Expired");
                 query.bindValue(":quoteNum",q.quoteNum);
-                qDebug() << "status: " << query.exec();
+               // qDebug() << "status: " << query.exec();
                 quotesExpired[q.quoteNum] = 1;
                 numOfQuotesExpired++;
             }
@@ -1326,7 +1420,7 @@ void MainWindow::quoteFilterMenuSelection(){
                 qu.exec("SELECT * FROM quoteTable WHERE connectionName = 'status' AND quoteNum = " +QString::number(i));
                 qu.last();
                 QString status = qu.value(3).toString();
-                qDebug() << "OPEN STATUS : " << status << "numQuotes " << qdbMan.getNumQuotes() << " quote num : " << i;
+               // qDebug() << "OPEN STATUS : " << status << "numQuotes " << qdbMan.getNumQuotes() << " quote num : " << i;
                 if(status == "Open"){
                     getQuote(q.quoteNum);
                     break;
@@ -1429,15 +1523,15 @@ void MainWindow::showCompDateBox(){
     QString prompt = "Enter New Date (mm/dd/yyyy)";
     QString text = QInputDialog::getText(0, "Completion Date","Current Completion Date: "+qPDF.getCompletionDate().toString("MM/dd/yyyy"),QLineEdit::Normal,prompt,&ok);
     if(ok == true && (text != prompt && prompt != "" && prompt != " ")){
-        qDebug() << text << QDate::fromString(text,"MM/dd/yyyy");
+       // qDebug() << text << QDate::fromString(text,"MM/dd/yyyy");
         if(QDate::fromString(text,"MM/dd/yyyy").toString() == ""){
             QMessageBox::information(this, tr("Invalid Date!"), tr("Please enter a valid date in the following format: mm/dd/yyyy"));
         }
         else{
 
             qPDF.updateCompletionDate(QDate::fromString(text,"MM/dd/yyyy"));
-            qDebug() << "Date updated! " << QDate::fromString(text,"MM/dd/yyyy");
-            qDebug() << qPDF.getCompletionDate().toString("MM/dd/yyyy");
+           // qDebug() << "Date updated! " << QDate::fromString(text,"MM/dd/yyyy");
+           // qDebug() << qPDF.getCompletionDate().toString("MM/dd/yyyy");
         }
     }
 
@@ -1454,7 +1548,7 @@ void MainWindow::showCompDateBox(){
  */
 
 void MainWindow::quoteMenuSelection(){
-    qDebug() << "Triggered" << sender();
+   // qDebug() << "Triggered" << sender();
     if(sender()->objectName() == "actionSetClosed"){
         //qDebug() << "Closing";
         ui->statusBox->setCurrentText("Closed");
@@ -1735,6 +1829,13 @@ void MainWindow::setConnections(QString array[], QString connectionArray[], int 
                 qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
                 qu.bindValue(":value",1);
                  qu.exec();
+
+
+
+
+
+
+
             }
 
         }
@@ -1873,6 +1974,167 @@ void MainWindow::setConnections(QString array[], QString connectionArray[], int 
 
 }
 
+
+void MainWindow::setTemporaryConnections(QString array[], QString connectionArray[], int index){  //real time display for pricing
+    //qDebug() << "Set running";
+    //updateCurrentQuote(ui->quoteNumLineEdit->text().toInt());
+    for(int i = 0; i < index ; i++){
+        //qDebug() << "Index is : " << index << " i is : " << i << "i @ index is " << array[i];
+       // QList<QLineEdit*> lineEditList = MainWindow::findChildren<QLineEdit*>();
+        if(MainWindow::findChild<QCheckBox *>(array[i])){
+            //qDebug() << "Found Child with name: " << MainWindow::findChild<QCheckBox*>(array[i])->objectName() << " and type of CheckBox";
+            QString lineToSplit = MainWindow::findChild<QCheckBox *>(array[i])->objectName();
+            QStringList list = lineToSplit.split("CheckBox");
+            //qDebug() << "Split name is " << list.at(0);
+            //qDebug() << "Appending spinbox..... " << list.at(0)+"SpinBox";
+            if(MainWindow::findChild<QSpinBox *>(list.at(0)+"SpinBox")){
+                if(MainWindow::findChild<QCheckBox *>(array[i])->isChecked()){
+                  // qDebug() << "Child is checked with SpinBox value!";
+                    QSqlQuery qu;
+
+                    qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                    qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                    qu.bindValue(":name",array[i]);
+                    qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                    qu.bindValue(":value",MainWindow::findChild<QSpinBox *>(list.at(0)+"SpinBox")->value());
+                   qu.exec();
+                }
+            }
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            else if(MainWindow::findChild<QCheckBox *>(array[i])->isChecked()){
+               // qDebug() << "Child is checked!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",1);
+                 qu.exec();
+            }
+
+        }
+        else if(MainWindow::findChild<QRadioButton*>(array[i])){
+            //qDebug() << "Found Child with name: " << MainWindow::findChild<QRadioButton*>(array[i])->objectName() << " and type of RadioButton";
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QRadioButton *>(array[i])->isChecked()){
+              //  qDebug() << "CHILD IS CHECKED!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",1);
+                qu.exec();
+            }
+
+        }
+        else if(MainWindow::findChild<QLineEdit*>(array[i])){
+          //qDebug() << "Found Child with name: " << MainWindow::findChild<QLineEdit*>(array[i])->objectName() << " and type of Line Edit";
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QLineEdit *>(array[i])->text().compare("") != 0  && MainWindow::findChild<QLineEdit *>(array[i])->text().compare(" ") != 0){
+                //qDebug() << "Line Edit is not blank!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",MainWindow::findChild<QLineEdit*>(array[i])->text());
+               // qDebug() << "adding to database: " << array[i] << " with connectionName: " << connectionArray[i];
+
+               qu.exec();
+
+            }
+
+        }
+        else if(MainWindow::findChild<QDateEdit*>(array[i])){
+        //   qDebug() << "Found Child with name: " << MainWindow::findChild<QDateEdit*>(array[i])->objectName() << " and type of Date Edit";
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QDateEdit *>(array[i])->date().toString("MM/dd/yyyy").compare("") != 0){
+                //qDebug() << "Date Edit is not blank!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",MainWindow::findChild<QDateEdit*>(array[i])->date().toString("MM/dd/yyyy"));
+               qu.exec();
+            }
+
+        }
+        else if(MainWindow::findChild<QPlainTextEdit*>(array[i])){
+          //qDebug() << "Found Child with name: " << MainWindow::findChild<QPlainTextEdit*>(array[i])->objectName() << " and type of Plain Text Edit";
+           // Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QPlainTextEdit *>(array[i])->toPlainText() != ""){
+               // qDebug() << "QPlainTextEdit is not blank!";
+                QSqlQuery qu;
+
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",MainWindow::findChild<QPlainTextEdit*>(array[i])->toPlainText());
+                qu.exec();
+            }
+
+        }
+        else if(MainWindow::findChild<QComboBox*>(array[i])){
+          //qDebug() << "Found Child with name: " << MainWindow::findChild<QComboBox*>(array[i])->objectName() << " and type of Combo Box";
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QComboBox *>(array[i])->currentText().compare("") != 0){
+               // qDebug() << "ComboBox!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",MainWindow::findChild<QComboBox*>(array[i])->currentText());
+                qu.exec();
+            }
+
+        }
+        else if(MainWindow::findChild<QSpinBox*>(array[i])){
+          // qDebug() << "Found Child with name: " << MainWindow::findChild<QComboBox*>(array[i])->objectName() << " and type of Combo Box";
+            //Here we insert into the new SQL database, if checked, and then go from there. This makes life easier...
+            if(MainWindow::findChild<QSpinBox *>(array[i])->value() != 0){
+               // qDebug() << "ComboBox!";
+                QSqlQuery qu;
+                qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+                qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+                qu.bindValue(":name",array[i]);
+                qu.bindValue(":connectionName",connectionArray[i]); //grab the connectionName for pricing.
+                qu.bindValue(":value",MainWindow::findChild<QSpinBox*>(array[i])->value());
+                qu.exec();
+            }
+        }
+    }
+
+
+    if(ui->createdByLabel->text() != ""){
+        QString createdBy = ui->createdByLabel->text();
+        QString lineToSplit = createdBy;
+        QStringList list = lineToSplit.split("Created By: ");
+        QSqlQuery qu;
+        qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+        qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+        qu.bindValue(":name","createdByConnection");
+        qu.bindValue(":connectionName","createdBy"); //grab the connectionName for pricing.
+        qu.bindValue(":value",list.at(1));
+        qu.exec();
+    }
+
+    else{
+        QSqlQuery qu;
+        qu.prepare("INSERT INTO quoteTableTemp VALUES (:quoteNum, :name, :connectionName, :value) ");
+        qu.bindValue(":quoteNum",ui->quoteNumLineEdit->text().toInt());
+        qu.bindValue(":name","createdByConnection");
+        qu.bindValue(":connectionName","createdBy"); //grab the connectionName for pricing.
+        qu.bindValue(":value",loginName);
+        qu.exec();
+    }
+
+}
+
+
 /*
  *
  *
@@ -1887,13 +2149,14 @@ void MainWindow::getConnections(int quoteNum, QString to[], QString from[], int 
     //qDebug() << qu.exec("SELECT * FROM quoteTable WHERE quoteNum =" + QString::number(quoteNum));
     qu.exec("SELECT * FROM quoteTable WHERE quoteNum =" + QString::number(quoteNum));
     //qDebug() << "VALUE FROM SELECT: " << qu.value(1).toString();
+    QString name = "";
     for(int i = 0; i < index; i++){
         while(qu.next()){
            // qDebug() << "Getting connections";
             if(MainWindow::findChild<QCheckBox*>(qu.value(1).toString())){
                // qDebug() << "Found: " << MainWindow::findChild<QCheckBox*>(qu.value(1).toString())->objectName();
                 MainWindow::findChild<QCheckBox*>(qu.value(1).toString())->setChecked(true);
-
+                name = qu.value(1).toString();
                 QString lineToSplit = MainWindow::findChild<QCheckBox *>(qu.value(1).toString())->objectName();
                 QStringList list = lineToSplit.split("CheckBox");
                // qDebug() << "Split name is " << list.at(0);
@@ -1909,7 +2172,6 @@ void MainWindow::getConnections(int quoteNum, QString to[], QString from[], int 
                        // qDebug() << "spinbox value is " << qu.value(3).toInt();
                         MainWindow::findChild<QSpinBox *>(list.at(0)+"SpinBox")->setValue(qu2.value(0).toInt());
                 }
-
 
 
 
@@ -2063,7 +2325,7 @@ void MainWindow::freeze(){
  */
 void MainWindow::unfreeze(){
 
-    qDebug() << "password entered correctly.";
+   //qDebug() << "password entered correctly.";
     QList<QLineEdit*> lineEditList = MainWindow::findChildren<QLineEdit*>(); //find all the line edits.
     QList<QRadioButton*> radioButtonList = MainWindow::findChildren<QRadioButton*>(); //find all the line edits.
     QList<QCheckBox*> checkBoxList = MainWindow::findChildren<QCheckBox*>(); //find all the line edits.
@@ -2148,6 +2410,30 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     if(qS.isHidden()){
         ui->actionClose_Sidebar->setText("Open Sidebar");
     }
+    if(pS.isHidden()){
+        ui->actionClose_Price_Sidebar->setText("Open Price Sidebar");
+    }
+    if(cS.isHidden()){
+        ui->actionClose_Customer_Info->setText("Open Customer Sidebar");
+    }
+
+
+    if(!cs.stringList.isEmpty()){
+        ui->nameLineEdit->setText(cs.stringList.at(0));
+        ui->companyNameLineEdit->setText(cs.stringList.at(1));
+        ui->address1LineEdit->setText(cs.stringList.at(2));
+        ui->address2LineEdit->setText(cs.stringList.at(3));
+        ui->cityLineEdit->setText(cs.stringList.at(4));
+        ui->stateComboBox->setCurrentText(cs.stringList.at(5));
+        ui->zipCodeLineEdit->setText(cs.stringList.at(6));
+        ui->emailLineEdit->setText(cs.stringList.at(7));
+        ui->faxLineEdit->setText(cs.stringList.at(8));
+        ui->phoneLineEdit->setText(cs.stringList.at(9));
+        ui->phone2LineEdit->setText(cs.stringList.at(10));
+        cs.stringList.clear();
+
+    }
+
 
     //qS.update();
    // qS.begin();
@@ -2183,7 +2469,39 @@ void MainWindow::sidebar(){
         qS.update();
         qS.begin();
     }
+
 }
+
+void MainWindow::priceSideBar(){
+    if(ui->actionClose_Price_Sidebar->text() == "Close Price Sidebar"){
+        ui->actionClose_Price_Sidebar->setText("Open Price Sidebar");
+        pS.hide();
+    }
+    else{
+        ui->actionClose_Price_Sidebar->setText("Close Price Sidebar");
+        pS.show();
+        pS.getNameAndPrices();
+        pS.update();
+
+    }
+}
+
+void MainWindow::customerinfo(){
+
+    if(ui->actionClose_Customer_Info->text() == "Close Customer Info"){
+
+        ui->actionClose_Customer_Info->setText("Open Customer Info");
+         cS.hide();
+
+    }
+    else{
+        ui->actionClose_Customer_Info->setText("Close Customer Info");
+        cS.show();
+        cS.addContacts();
+
+    }
+}
+
 
 /*
  * This will cause the window to expand or shrink based on the "Tabs" button pushed.
@@ -2231,6 +2549,10 @@ void MainWindow::doTheThing(){
 
 void MainWindow::loadDefaults(){
 
+
+    connectionsTo[i] = "wheelSize";
+    connectionsFrom[i] = "wheelSizeSpinBox";
+    i++;
     connectionsTo[i] = "mill40";
     connectionsFrom[i] = "platform40RadioButton";
     i++;
@@ -2270,9 +2592,55 @@ void MainWindow::loadDefaults(){
     connectionsTo[i] = "phone2";
     connectionsFrom [i] = "phone2LineEdit";
     i++;
+    connectionsTo[i] = "compName";
     connectionsFrom[i] = "companyNameLineEdit";
-    connectionsFrom[i] = "compName";
     i++;
+
+
+    connectionsTo[i] = "barLog";
+    connectionsFrom[i] = "barRadioButton";
+    i++;
+    connectionsTo[i] = "cantPushOff";
+    connectionsFrom[i] = "cantPushOffSpinBox";
+    i++;
+    connectionsTo[i] = "brownsville";
+    connectionsFrom[i] = "brownsvilleSpinBox";
+    i++;
+    connectionsTo[i] = "customPrice1";
+    connectionsFrom[i] = "customPrice1SpinBox";
+    i++;
+    connectionsTo[i] = "customPrice2";
+    connectionsFrom[i] = "customPrice2SpinBox";
+    i++;
+    connectionsTo[i] = "custom1";
+    connectionsFrom[i] = "custom1LineEdit";
+    i++;
+    connectionsTo[i] = "custom2";
+    connectionsFrom[i] = "custom2LineEdit";
+    i++;
+    connectionsTo[i] = "linearCarriage";
+    connectionsFrom[i] = "linearCheckBox";
+    i++;
+
+
+    QObjectList children = MainWindow::centralWidget()->children(); //recursion
+
+    QObjectList::const_iterator it = children.begin(); //iterator begin
+    QObjectList::const_iterator eIt = children.end(); //iterator end
+    QSqlQuery query;
+
+
+
+
+
+
+
+
+    }
+
+
+
+
     /*
      * nanosetRadioButton:nanoSet
 compsetRadioButton:compSet
@@ -2286,6 +2654,29 @@ noDeckRadioButton:noStrand
 challengerRadioButton:challengerCarriage
 magnumRadioButton:magnumCarriage
      */
+
+
+void MainWindow::push(bool checked){
+
+
+    setTemporaryConnections(connectionsFrom,connectionsTo,i);
+    //qDebug() << "Built Struct";
+
+    Quote q;
+
+    q.date = ui->dateEdit->date().toString("MM/dd/yyyy");
+    q.name = ui->nameLineEdit->text();
+    QList<QString> list = applyCheckedItems();
+
+
+
+    int totalPrice = qP.tempPriceQuote(q,list,list.count(),ui->quoteNumLineEdit->text().toInt());
+
+
+
+    ui->totalLabel->setText( "<font color='green'>Est.Total Price: "+QString::number(totalPrice));
+
+
 }
 
 void MainWindow::iterateChildren(QWidget * parent){
@@ -2302,19 +2693,27 @@ void MainWindow::iterateChildren(QWidget * parent){
           if(QString::compare(parentChild->objectName(),"label") && !parentChild->objectName().contains("tab") && !parentChild->objectName().contains("groupBox") && !parentChild->objectName().toLower().contains("layout") && !parentChild->objectName().contains("qt_spinbox") &&  !parentChild->objectName().contains("label_") && !parentChild->objectName().contains("line") && !parentChild->objectName().contains("qt_scroll") && QString::compare("",parentChild->objectName())){
             //qDebug() << parentChild->objectName();
 
+
               QString replacedString;
+
 
               if(parentChild->objectName().contains("CheckBox")){
                  replacedString = parentChild->objectName().replace("CheckBox","");
               }
               else if(parentChild->objectName().contains("SpinBox")){
-                  replacedString = parentChild->objectName().replace("SpinBox","");
-              }
+                 replacedString = parentChild->objectName().replace("SpinBox","");
+             }
               else if(parentChild->objectName().contains("RadioButton")){
+                  //qDebug() << "found a radio button " << parentChild->objectName();
                   replacedString = parentChild->objectName().replace("RadioButton","");
+                //  replacedString = parentChild->objectName().replace("CheckBox","");
+
               }
               else if(parentChild->objectName().contains("LineEdit")){
-                  replacedString = parentChild->objectName().replace("LineEdit","");
+
+                      replacedString = parentChild->objectName().replace("LineEdit","");
+
+
               }
               else if(parentChild->objectName().contains("PlainTextEdit")){
                   replacedString = parentChild->objectName().replace("PlainTextEdit","");
@@ -2323,31 +2722,14 @@ void MainWindow::iterateChildren(QWidget * parent){
                   replacedString = parentChild->objectName().replace("ComboBox","");
               }
 
-              /*
-platform40RadioButton:mill40
-platform48RadioButton:mill48
-platform60RadioButton:mill60
-platform52RadioButton:mill52
-              Too many occurences to change in the code... must hard code this.
-              */
-              /*
-              connectionsTo[i] = "mill40";
-              connectionsFrom[i] = "platform40RadioButton";
-              i++;
-              connectionsTo[i] = "mill48";
-              connectionsFrom[i] = "platform48RadioButton";
-              i++;
-              connectionsTo[i] = "mill60";
-              connectionsFrom[i] = "platform60RadioButton";
-              i++;
-              connectionsTo[i] = "mill52";
-              connectionsFrom[i] = "platform52RadioButton";
-              i++; */
 
-            //qDebug() << "Replaced String " << replacedString;
+                for(int j = 0; j<i;j++){
+                    if(connectionsTo[j].contains(replacedString)){
+                        break;
+                    }
 
+                }
 
-                qDebug() << parentChild->objectName() << ":" <<  replacedString;
 
                 connectionsTo[i] = replacedString;
                 connectionsFrom[i] = parentChild->objectName();
@@ -2357,7 +2739,11 @@ platform52RadioButton:mill52
 
 
           }
+
+
          iterateChildren( parentChild );
+
+
        }
 
 
@@ -2365,6 +2751,77 @@ platform52RadioButton:mill52
 
 
 
+
+
+
+}
+
+
+void MainWindow::makeToolTips(QWidget * parent){
+    QObjectList children = parent->children(); //recursion
+    QObjectList::const_iterator it = children.begin(); //iterator begin
+    QObjectList::const_iterator eIt = children.end(); //iterator end
+    while( it != eIt ){ //while beginning does not equal end
+       QSqlQuery qu;
+       QWidget * parentChild = (QWidget *) (*it++);
+
+
+
+
+       for(int j = 0; j<i; j++){
+           if(parentChild->objectName() == connectionsFrom[j]){
+             // qDebug() <<"found a match: " << parentChild->objectName() << " with " << connectionsFrom[j] << "connectionsTO = " + connectionsTo[j];
+               qu.exec("SELECT * FROM quoteItems where name = '"+connectionsTo[j]+"'");
+               qu.last();
+               if(qu.isValid()){
+                // qDebug() << " this is a valid query: "  << connectionsFrom[j] << " and " << parentChild->objectName();
+
+
+                   parentChild->setToolTip("$"+qu.value(2).toString());
+                   parentChild->setToolTipDuration(1000);
+
+
+               }
+               if(parentChild==ui->cantTurnersCheckBox){
+                   ui->cantTurnersCheckBox->setToolTip("$"+qu.value(2).toString()+" ea");
+               }
+               if(parentChild==ui->brownsvilleCheckBox){
+                   ui->brownsvilleCheckBox->setToolTip("$"+qu.value(2).toString()+" ea");
+               }
+
+               if(parentChild==ui->cantPushOffCheckBox){
+                   ui->cantPushOffCheckBox->setToolTip("$"+qu.value(2).toString()+" ea");
+           }
+               if(parentChild->objectName()== "platform40RadioButton"){
+                   qu.exec("SELECT * FROM quoteItems where name = 'mill40LT'");
+                   qu.last();
+                   ui->platform40RadioButton->setToolTip("$" +qu.value(2).toString());
+
+               }
+               if(parentChild->objectName()== "platform48RadioButton"){
+                   qu.exec("SELECT * FROM quoteItems where name = 'mill48LT'");
+                   qu.last();
+                   ui->platform48RadioButton->setToolTip("$" +qu.value(2).toString());
+
+               }
+               if(parentChild->objectName()== "platform52RadioButton"){
+                   qu.exec("SELECT * FROM quoteItems where name = 'mill52LT'");
+                   qu.last();
+                   ui->platform52RadioButton->setToolTip("$" +qu.value(2).toString());
+
+               }
+               if(parentChild->objectName()== "platform60RadioButton"){
+                   qu.exec("SELECT * FROM quoteItems where name = 'mill60LT'");
+                   qu.last();
+                   ui->platform60RadioButton->setToolTip("$" +qu.value(2).toString());
+
+               }
+       }
+}
+
+
+       makeToolTips(parentChild);
+    }
 
 
 

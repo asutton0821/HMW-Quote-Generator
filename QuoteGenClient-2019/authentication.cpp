@@ -15,7 +15,7 @@ authentication::authentication(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString dbAddress = "localhost";
+    QString dbAddress = "192.168.1.145";
 
     this->setFixedSize(QSize(400,300));
     buttonPressed = 0;
@@ -42,11 +42,11 @@ QFile::exists("quotedatabase.sqlite");
 
  else{
  db = QSqlDatabase::addDatabase("QMYSQL");
- db.setDatabaseName("quotedatabase");
+ db.setDatabaseName("quotedatabase_dev");
  db.setHostName(dbAddress);
  db.setPassword("password");
  db.setUserName("admin");
-qDebug() << "Database open? : " << db.open();
+//qDebug() << "Database open? : " << db.open();
 
 if(db.open() == false){
     qDebug() << "Database does not exist";
@@ -70,7 +70,7 @@ else{
 
 }
 void authentication::testDBListener(){
-    qDebug() << "signal heard";
+  //  qDebug() << "signal heard";
 }
 
 
@@ -149,9 +149,9 @@ void authentication::accept(){
              buttonPressed = 0;
              return;
          }
-         qDebug() << "Success on username";
+        // qDebug() << "Success on username";
          if(dec == ui->passwordLineEdit->text()){
-             qDebug() << "Success on password";
+            // qDebug() << "Success on password";
              ui->authenticationStatusLabel->setText("");
               buttonPressed = 1;
               writeToLog("userauthtrue",QDate::currentDate().toString()+" at "+QTime::currentTime().toString()+": User "+ui->usernameLineEdit->text()+" was successfully logged in");
@@ -159,14 +159,14 @@ void authentication::accept(){
 
          }
          else{
-             qDebug() << "invalid password";
+           //  qDebug() << "invalid password";
              ui->authenticationStatusLabel->setText("Invalid Password!");
              writeToLog("userauthtrue",QDate::currentDate().toString()+" at "+QTime::currentTime().toString()+": User "+ui->usernameLineEdit->text()+" was successfully logged in");
              buttonPressed = 0;
          }
      }
      else{
-         qDebug() << "invalid username!/password" << ui->usernameLineEdit->text();
+        // qDebug() << "invalid username!/password" << ui->usernameLineEdit->text();
          ui->authenticationStatusLabel->setText("Invalid Username/Password!");
          buttonPressed = 0;
      }
@@ -179,7 +179,7 @@ void authentication::accept(){
  */
 
 void authentication::reject(){
-    qDebug() << "rejected";
+   // qDebug() << "rejected";
     buttonPressed=0;
     qApp->exit();
 }
