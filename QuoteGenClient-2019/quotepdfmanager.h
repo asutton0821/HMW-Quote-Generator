@@ -31,6 +31,7 @@ public:
     QDate compDate;
 
 
+
 signals:
 
 private:
@@ -39,7 +40,7 @@ private:
     int totalPrice;
 
 public slots:
-    void print(int,Quote,QList<QString>, int);
+    void print(int,Quote,QList<QString>, int, QString);
     void updateLocation(QString);
     void updateCompletionDate(QDate);
     QDate getCompletionDate(void);
@@ -53,8 +54,9 @@ public slots:
     //QString getOptions(Quote, int , QString array[100], int ) <-This function is deprecated. Do not use.
     //bool findInArray(QString array[100], QString value, int index); <- This function is deprecated. Do not use.
     bool findInArray(QList<QString> array, QString value, int index);
-    QString getQuotedMill(QList<QString> array, int index);
+    QString getQuotedMill(QList<QString> array, int index, int quoteNum);
     bool findOverride(QString overrideValue, int quoteNum);
+
 
 
 };
