@@ -30,6 +30,7 @@ public:
     void sortBy(QString sortType);
     void update(void);
     void count(void);
+    void closeEvent(QCloseEvent *);
 
 
 

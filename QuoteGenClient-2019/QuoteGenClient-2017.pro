@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql printsupport
+QT += core gui sql printsupport \
+    quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
+    customerinfo.cpp \
         mainwindow.cpp \
+    pricesidebar.cpp \
     quotedbmanager.cpp \
     quotedbpricemanager.cpp \
     quotepdfmanager.cpp \
@@ -34,6 +37,8 @@ SOURCES += main.cpp\
     encryptionhandler.cpp
 
 HEADERS  += mainwindow.h \
+    customerinfo.h \
+    pricesidebar.h \
     quotedbmanager.h \
     quotedbpricemanager.h \
     quotepdfmanager.h \
@@ -44,6 +49,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     authentication.ui \
+    customerinfo.ui \
+    pricesidebar.ui \
     quotestatus.ui
 
 RESOURCES += \
